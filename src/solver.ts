@@ -83,8 +83,8 @@ export function solve(
     return chosen;
   };
 
-  const preview = (seqs: number[][][]) =>
-    seqs.map((seq) => seq.map(([row, col]) => pool[row][col]).join(" -> "));
+  // const preview = (seqs: number[][][]) =>
+  //   seqs.map((seq) => seq.map(([row, col]) => pool[row][col]).join(" -> "));
 
-  return preview(evaluate(res));
+  return evaluate(res);
 }
