@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MOBILE BREACHER MK.1</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&family=Roboto+Mono&display=swap');
+  </style>
+  <style>
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    html {
+      height: 100%;
+      background-color: black;
+    }
+
+    body {
+      background-color: #ff606008;
+      overflow: hidden;
+      box-sizing: border-box;
+      height: 100%;
+      margin: unset;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Barlow', sans-serif;
+      color: #cfed57;
+    }
+
+    #root {
+      border: 1px solid #ff606080;
+      flex: 1;
+    }
+
+    button {
+      font-size: 1.2em;
+      font-family: inherit;
+      color: #5ef5ff;
+      border: 1px solid #ff606080;
+      background-color: #ff606010;
+      width: 160px;
+      height: 60px;
+      cursor: pointer;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      button:hover {
+        border: 1px solid #ff6060;
+        background-color: #ff606040;
+      }
+    }
+
+    button:active {
+      background-color: #ff606060;
+    }
+
+    button:focus {
+      outline: unset;
+    }
+
+    progress {
+      border: 1px solid #ff6060;
+      padding: 4px
+    }
+
+    progress::-webkit-progress-bar {
+      background-color: unset
+    }
+
+    progress::-webkit-progress-value {
+      background-color: #ff6060;
+    }
+
+    progress::-moz-progress-bar {
+      /* style rules */
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+</body>
+
+</html>

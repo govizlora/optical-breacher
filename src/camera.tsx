@@ -1,0 +1,154 @@
+import { useCallback, useEffect, useRef, useState } from "react"
+
+const ratio = 16 / 9;
+
+function threshold(context: CanvasRenderingContext2D, t: number) {
+	const imageData = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
+	const thres = t * 255;
+	for (let i = 0; i < imageData.data.length; i += 4) {
+		const c = imageData.data[i + 1] < thres ? 255 : 0;
+		imageData.data[i] = c
+		imageData.data[i + 1] = c
+		imageData.data[i + 2] = c
+	}
+	context.putImageData(imageData, 0, 0);
+}
+
+export function Camera({
+	onCapture
+}: {
+	onCapture(canvas: HTMLCanvasElement): void;
+}) {
+	const [dim, setDim] = useState({ width: 240, height: 320 })
+	const [ready, setReady] = useState(false);
+	const videoRef = useRef<HTMLVideoElement>(null);
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	const updateDimension = useCallback(() => {
+		if (videoRef.current && containerRef.current) {
+			const width = containerRef.current.clientWidth;
+			console.log(width)
+			console.log(containerRef);
+			const height = width / ratio;
+			videoRef.current.width = width
+			videoRef.current.height = height
+			setDim({ width, height })
+		}
+	}, [setDim])
+
+	useEffect(() => {
+		window.addEventListener('resize', updateDimension);
+		return () => { window.removeEventListener('resize', updateDimension) }
+	}, [updateDimension])
+
+	useEffect(() => {
+		if (videoRef.current && !videoRef.current.srcObject) {
+			navigator.mediaDevices.getUserMedia(
+				{
+					audio: false,
+					video: {
+						facingMode: "environment",
+						// Use a big enough resolution to get the native resolution
+						width: { ideal: 7680 },
+						height: { ideal: 4320 }
+					}
+				}
+			).then(mediaStream => {
+				videoRef.current!.srcObject = mediaStream;
+			})
+		}
+	}, [])
+
+	return <>
+		<div ref={containerRef} style={{ position: 'relative', margin: 16, border: '1px solid #ff606060' }}>
+			<video
+				ref={videoRef}
+				playsInline
+				onCanPlay={() => {
+					if (videoRef.current && containerRef.current) {
+						videoRef.current.play();
+						setReady(true);
+						updateDimension();
+					}
+				}}
+				style={{
+					objectFit: 'cover',
+					display: 'block' // Avoid the extra 5px bottom margin after the element
+				}}
+				muted
+			/>
+			{ready &&
+				<div
+					style={{
+						boxSizing: 'border-box',
+						position: 'absolute',
+						display: 'grid',
+						top: 0,
+						gridTemplateColumns: '2fr 1fr',
+						columnGap: 32,
+						padding: 8,
+						// Ideally "100%" is enough, but it doesn't work on iOS
+						width: dim.width,
+						height: dim.height
+					}}
+				>
+					<div
+						style={{
+							gridColumn: 1,
+							border: '1px solid #cfed57',
+						}}
+					/>
+					<div
+						style={{
+							gridColumn: 2,
+							border: '1px solid #cfed57',
+						}}
+					/>
+				</div>
+			}
+		</div>
+		<button
+			style={{
+				margin: 'auto',
+				marginBottom: 32,
+			}}
+			onClick={() => {
+				const canvas = document.createElement('canvas');
+				// The OCR performs a bit better with vertically squeezed image
+				canvas.height = 480;
+				canvas.width = 960;
+				const mediaStream = videoRef.current!.srcObject as MediaStream;
+				const { width: camWidth = 1, height: camHeight = 1 } = mediaStream.getTracks()[0].getSettings();
+				let sourceX = 0;
+				let sourceY = 0;
+				let sourceW = camWidth;
+				let sourceH = camHeight;
+				const context = canvas.getContext('2d')!;
+				if (camWidth / camHeight > ratio) {
+					const captureWidth = camHeight * ratio;
+					sourceX = (camWidth - captureWidth) / 2;
+					sourceW = captureWidth;
+				} else {
+					const captureHeight = camWidth / ratio;
+					sourceY = (camHeight - captureHeight) / 2;
+					sourceH = captureHeight;
+				}
+				context.drawImage(
+					videoRef.current!,
+					sourceX,
+					sourceY,
+					sourceW,
+					sourceH,
+					0,
+					0,
+					canvas.width,
+					canvas.height
+				)
+				threshold(context, 0.9)
+				onCapture(canvas)
+			}}
+		>
+			CAPTURE
+		</button>
+	</>
+}
