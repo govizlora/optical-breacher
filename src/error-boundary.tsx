@@ -38,11 +38,16 @@ export class ErrorBoundary extends Component {
           }}
         >
           <div style={{ fontSize: '3rem' }}>ERROR</div>
-          <div style={{ fontSize: '1rem', marginBottom: 16, }}>Reload required</div>
+          <div style={{ fontSize: '1rem', marginBottom: 32, }}>Reload required</div>
+          <div>{`${error}`}</div>
+          <div style={{ marginTop: 8 }}>ERROR STACK &gt;&gt;&gt;</div>
+          <div>{error.stack}</div>
+          <div style={{ marginTop: 8 }}>COMPONENT STACK &gt;&gt;&gt;</div>
+          <div>{componentStack.split('\n').slice(1).join('\n')}</div>
           <button
             style={{
               color: '#FF6060',
-              marginBottom: 32,
+              marginTop: 32,
               fontSize: '1rem',
               padding: '8px 16px',
               flexShrink: 0,
@@ -51,11 +56,6 @@ export class ErrorBoundary extends Component {
           >
             RELOAD
           </button>
-          <div>{`${error}`}</div>
-          <div style={{ marginTop: 8 }}>ERROR STACK &gt;&gt;&gt;</div>
-          <div>{error.stack}</div>
-          <div style={{ marginTop: 8 }}>COMPONENT STACK &gt;&gt;&gt;</div>
-          <div>{componentStack.split('\n').slice(1).join('\n')}</div>
         </div>
       )
     }

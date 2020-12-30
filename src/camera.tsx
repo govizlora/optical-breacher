@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
+// @ts-ignore
+import exampleImg from '../assets/example.jpg'
 
 const ratio = 16 / 9;
 
@@ -23,6 +25,7 @@ export function Camera({
 	const [ready, setReady] = useState(false);
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
+	const [exampleOn, setExampleOn] = useState(false);
 
 	const updateDimension = useCallback(() => {
 		if (videoRef.current && containerRef.current) {
@@ -58,53 +61,64 @@ export function Camera({
 	}, [])
 
 	return <>
-		<div ref={containerRef} style={{ position: 'relative', margin: 16, border: '1px solid #ff606060' }}>
-			<video
-				ref={videoRef}
-				playsInline
-				onCanPlay={() => {
-					if (videoRef.current && containerRef.current) {
-						videoRef.current.play();
-						setReady(true);
-						updateDimension();
-					}
-				}}
-				style={{
-					objectFit: 'cover',
-					display: 'block' // Avoid the extra 5px bottom margin after the element
-				}}
-				muted
-			/>
-			{ready &&
-				<div
-					style={{
-						boxSizing: 'border-box',
-						position: 'absolute',
-						display: 'grid',
-						top: 0,
-						gridTemplateColumns: '5fr 2fr',
-						// columnGap: 16,
-						padding: 4,
-						// Ideally "100%" is enough, but it doesn't work on iOS
-						width: dim.width,
-						height: dim.height
+		<div style={{ position: 'relative', margin: 16, border: '1px solid #ff606060', overflow: 'hidden' }}>
+			<div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 4px', color: '#cfed57' }}>
+				<div>CODE MATRIX</div>
+				<div>SEQUENCE</div>
+			</div>
+			<div ref={containerRef} style={{ position: 'relative' }}>
+				<video
+					ref={videoRef}
+					playsInline
+					onCanPlay={() => {
+						if (videoRef.current && containerRef.current) {
+							videoRef.current.play();
+							setReady(true);
+							updateDimension();
+						}
 					}}
-				>
+					style={{
+						objectFit: 'cover',
+						display: 'block' // Avoid the extra 5px bottom margin after the element
+					}}
+					muted
+				/>
+				{ready &&
 					<div
 						style={{
-							gridColumn: 1,
-							border: '1px dashed #cfed57',
+							boxSizing: 'border-box',
+							position: 'absolute',
+							display: 'grid',
+							top: 0,
+							gridTemplateColumns: '5fr 2fr',
+							// columnGap: 16,
+							padding: 4,
+							// Ideally "100%" is enough, but it doesn't work on iOS
+							width: dim.width,
+							height: dim.height
 						}}
-					/>
-					<div
-						style={{
-							gridColumn: 2,
-							border: '1px dashed #cfed57',
-							borderLeft: 0,
-						}}
-					/>
-				</div>
-			}
+					>
+						<div
+							style={{
+								gridColumn: 1,
+								border: '1px dashed #cfed57',
+							}}
+						/>
+						<div
+							style={{
+								gridColumn: 2,
+								border: '1px dashed #cfed57',
+								borderLeft: 0,
+							}}
+						/>
+					</div>
+				}
+			</div>
+		</div>
+		<div style={{ margin: '0 16px' }}>
+			Move the camera as close to the screen as possile. Avoid rotation or tilt.
+			{exampleOn ? <div><img style={{ width: '70%' }} src={exampleImg} /></div> :
+				<a style={{ color: '#FF6060', marginLeft: 4 }} href="#" onClick={() => { setExampleOn(true) }}>Show the example</a>}
 		</div>
 		<button
 			className='main'

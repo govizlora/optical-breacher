@@ -24,7 +24,7 @@ export function getMostCommonLength<T>(lines: T[][]) {
     lengths[line.length] = lengths[line.length] || 0;
     lengths[line.length]++;
   })
-  return parseInt(Object.entries(lengths).sort((a, b) => b[1] - a[1])[0][0], 10);
+  return parseInt(Object.entries(lengths).sort((a, b) => b[1] - a[1])[0]?.[0] || '0', 10);
 }
 
 export function processMatrix(res: string) {

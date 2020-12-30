@@ -25,7 +25,7 @@ export function Result({ matrix, targets, onStartOver }: {
   }, [matrix, targets, bufferSize, hiddenTargets, inputIsValid])
 
   if (!inputIsValid) {
-    // throw Error('OCR result unacceptable');
+    throw Error('OCR result unacceptable');
   }
 
   return <>

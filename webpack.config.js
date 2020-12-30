@@ -17,7 +17,7 @@ module.exports = env => ({
         use: 'ts-loader'
       },
       {
-        test: /(\.gz|tesseract-core\.wasm\.js|worker\.min\.js)$/i,
+        test: /(\.gz|\.jpg|tesseract-core\.wasm\.js|worker\.min\.js)$/i,
         loader: 'file-loader',
         options: {
           name: 'lib/[name].[ext]',
