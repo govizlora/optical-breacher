@@ -1,66 +1,48 @@
-import { createWorker, OEM, PSM, createScheduler, ImageLike } from 'tesseract.js'
+import { createWorker, OEM, PSM, ImageLike, Page, WorkerParams, Worker } from 'tesseract.js'
 // @ts-ignore
-import langPath from './eng.traineddata.gz'
+import './lib/cyber.traineddata.gz'
 
-export type Logger = (packet: { workerID: number, status: string; progress?: number }) => void
+export type Logger = (packet: { name: string, status: string; progress?: number }) => void
 
 export class OCR {
-  private scheduler = createScheduler();
-  private inited: Promise<void> = Promise.resolve();
+  private matrixWorker: Promise<Worker>;
+  private targetsWorker: Promise<Worker>;
 
   constructor(
     private logger: Logger,
-    private workerAmount: number = 2
   ) {
-    this.inited = Promise.all(
-      Array(this.workerAmount)
-        .fill(null)
-        .map((_v, i) => this.createWorker(i))
-    )
-      .then(workers => {
-        workers.forEach(this.scheduler.addWorker)
-      })
+    this.matrixWorker = this.createWorker('matrix', { tessedit_pageseg_mode: PSM.SINGLE_BLOCK, tessedit_ocr_engine_mode: OEM.LSTM_ONLY })
+    this.targetsWorker = this.createWorker('targets', { tessedit_pageseg_mode: PSM.SINGLE_BLOCK, tessedit_ocr_engine_mode: OEM.LSTM_ONLY })
   }
 
-  public terminate = this.scheduler.terminate;
+  public terminate = async () => Promise.all([(await this.targetsWorker).terminate(), (await this.matrixWorker).terminate]);
 
   // Multiple Rectangles (with scheduler to do recognition in parallel):
   // https://github.com/naptha/tesseract.js/blob/master/docs/examples.md
-  // Currently hard-coded to separate the image vertically with a 2:1 ratio.
+  // Currently hard-coded to separate the image vertically with a 5:2 ratio.
   public async recognize(image: ImageLike, width: number, height: number) {
-    await this.inited;
-    const rectangles = [
-      { left: 0, top: 0, width: width / 3 * 2, height },
-      { left: width / 3 * 2, top: 0, width: width / 3, height }
-    ]
-    const results = await Promise.all(rectangles.map((rectangle) => (
-      this.scheduler.addJob('recognize', image, { rectangle })
-    )));
+    const matrixWorker = await this.matrixWorker;
+    const targetsWorker = await this.targetsWorker;
+    const results = await Promise.all([
+      matrixWorker.recognize(image, { rectangle: { left: 0, top: 0, width: width / 7 * 5, height } }),
+      targetsWorker.recognize(image, { rectangle: { left: width / 7 * 5, top: 0, width: width / 7 * 2, height } })
+    ]);
     console.log('finished', results)
     return {
-      leftText: results[0].data.text as string,
-      rightText: results[1].data.text as string,
+      matrixData: results[0].data as Page,
+      targetsData: results[1].data as Page,
     }
   }
 
-  private async createWorker(workerID: number) {
+  private async createWorker(name: string, params: Partial<WorkerParams>) {
     const worker = createWorker({
-      langPath: langPath,
-      logger: args => this.logger({ workerID, ...args })
+      langPath: 'lib',
+      logger: args => this.logger({ name, ...args })
     });
     await worker.load();
-    await worker.loadLanguage('eng');
-    await worker.initialize('eng');
-    await worker.setParameters({
-      tessedit_char_whitelist: '0123456789 ABCDEFGHJKLMNPQRTUVWXYZ',
-      // tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
-      // tessedit_ocr_engine_mode: OEM.TESSERACT_ONLY,
-      // user_defined_dpi: '2400'
-      // preserve_interword_spaces: '1',
-      // tessjs_create_box: '1',
-      // tessjs_create_unlv: '1',
-      // tessjs_create_osd: '1'
-    });
+    await worker.loadLanguage('cyber');
+    await worker.initialize('cyber');
+    await worker.setParameters(params);
     return worker;
   }
 }

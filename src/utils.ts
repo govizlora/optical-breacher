@@ -1,33 +1,51 @@
-/**
- * `C` -> `[]`
- * `1C` -> `[1C]`
- * `1C55BD` -> `[1C, 55, BD]`
- */
-function parseByte(byte: string): (string)[] {
-  if (byte.length < 2 || !byte.match(/^[0-9A-F]+$/)) {
-    return [];
-  }
-
-  if (byte.length === 2) {
-    try {
-      return parseInt(byte, 16) < 256 ? [byte] : [];
-    } catch {
-      return []
-    }
-  }
-
-  if (byte.length % 2 === 0) {
-    const bytes = byte.match(/.{1,2}/g)!
-    return bytes.map(parseByte).flat();
-  }
-
-  return [];
+const byteMap: Record<string, string> = {
+  1: '1C',
+  7: '7A',
+  5: '55',
+  B: 'BD',
+  E: 'E9',
+  F: 'FF'
 }
 
-const getBytes = (line: string) => line.split(' ').map(parseByte).flat();
+function parseLine(line: string) {
+  const bytes = line.split(' ').map(b => byteMap[b]);
 
-// type Falsy = null | undefined | 0 | false | '';
+  // Remove lines such as `EE 1 5` which is usually not a valid line
+  if (bytes.some(byte => !byte)) {
+    return []
+  }
 
-// const isTruthy = <V>(v: V | Falsy): v is V => Boolean(v);
+  return bytes
+}
 
-export const processResult = (res: string) => res.split('\n').map(getBytes).filter(l => l.length > 0)
+export function getMostCommonLength<T>(lines: T[][]) {
+  const lengths: Record<number, number> = {}
+  lines.forEach(line => {
+    lengths[line.length] = lengths[line.length] || 0;
+    lengths[line.length]++;
+  })
+  return parseInt(Object.entries(lengths).sort((a, b) => b[1] - a[1])[0][0], 10);
+}
+
+export function processMatrix(res: string) {
+  const lines = res.split('\n').map(parseLine).filter(bytes => bytes.length);
+  const mostCommonLength = getMostCommonLength(lines);
+  const validLines = lines.filter(line => line.length === mostCommonLength);
+  const chars = new Set<string>();
+  validLines.forEach(bytes => { bytes.forEach(byte => { chars.add(byte) }) })
+
+  return { lines: validLines, chars }
+}
+
+/**
+ * TODO: Add more filter methods
+ * @param matrixBytes The bytes appeared in the matrix
+ */
+export const processTargets = (res: string, matrixBytes: Set<string>) => res
+  .split('\n')
+  .map(parseLine)
+  .filter(
+    bytes => bytes.length >= 2
+      && bytes.length <= 4
+      && bytes.every(byte => matrixBytes.has(byte))
+  );

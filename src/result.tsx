@@ -1,28 +1,50 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { solve } from "./solver";
 
-export function Result({ pool, targets, onStartOver }: {
-  pool: string[][];
+export function Result({ matrix, targets, onStartOver }: {
+  matrix: string[][];
   targets: string[][];
   onStartOver(): void;
 }) {
+  const bufferSizeLocal = window.localStorage.getItem('buffer_size') || '4';
+  const [bufferSize, setBufferSize] = useState(parseInt(bufferSizeLocal, 10));
+  // const chosen: Record<string, number> = {}
   const chosen = useMemo(() => {
-    const chosens = pool.length && targets.length ? solve(pool, targets) : [];
+    const chosens = matrix.length && targets.length ? solve(matrix, targets) : [];
     const chosenSeq = chosens[0] || [];
     const c: Record<string, number> = {};
     chosenSeq.forEach(([row, col], i) => {
       c[`${row},${col}`] = i;
     })
     return c;
-  }, [pool, targets])
+  }, [matrix, targets])
 
   return <>
+    <div style={{ margin: 16 }}>
+      <label>BUFFER SIZE:</label>
+      <input
+        type="number"
+        min={2}
+        max={10}
+        name="buffer-size"
+        style={{
+          marginLeft: 8,
+        }}
+        value={bufferSize}
+        onChange={e => {
+          const bufferSize = Math.min(Math.max(parseInt(e.target.value, 10), 2), 10)
+          setBufferSize(bufferSize);
+          window.localStorage.setItem('buffer_size', `${bufferSize}`)
+        }}
+      />
+    </div>
     <div
       style={{
         margin: 16,
+        marginTop: 0,
         border: '1px solid #cfed5780',
         backgroundColor: '#120f18',
-        paddingBottom: 16,
+        paddingBottom: 8,
       }}
     >
       <div
@@ -30,12 +52,12 @@ export function Result({ pool, targets, onStartOver }: {
           backgroundColor: '#cfed57',
           color: 'black',
           padding: '4px 16px',
-          marginBottom: 16,
+          marginBottom: 8,
         }}
       >
         BEST ROUTE
       </div>
-      {pool.map((line, row) =>
+      {matrix.map((line, row) =>
         <div
           style={{
             display: 'flex',
@@ -80,18 +102,18 @@ export function Result({ pool, targets, onStartOver }: {
         marginTop: 0,
         border: '1px solid #cfed5780',
         backgroundColor: '#120f18',
-        paddingBottom: 16,
+        paddingBottom: 8,
       }}
     >
       <div
         style={{
           color: '#cfed57',
           padding: '4px 16px',
-          marginBottom: 16,
+          marginBottom: 8,
           borderBottom: '1px solid #cfed5780',
         }}
       >
-        MATCHED SEQUENCES
+        TARGET SEQUENCES
       </div>
       {targets.map(target =>
         <div style={{ paddingLeft: 16 }}>

@@ -27,8 +27,6 @@ export function Camera({
 	const updateDimension = useCallback(() => {
 		if (videoRef.current && containerRef.current) {
 			const width = containerRef.current.clientWidth;
-			console.log(width)
-			console.log(containerRef);
 			const height = width / ratio;
 			videoRef.current.width = width
 			videoRef.current.height = height
@@ -84,8 +82,8 @@ export function Camera({
 						position: 'absolute',
 						display: 'grid',
 						top: 0,
-						gridTemplateColumns: '2fr 1fr',
-						columnGap: 32,
+						gridTemplateColumns: '5fr 2fr',
+						columnGap: 18,
 						padding: 8,
 						// Ideally "100%" is enough, but it doesn't work on iOS
 						width: dim.width,
@@ -95,13 +93,15 @@ export function Camera({
 					<div
 						style={{
 							gridColumn: 1,
-							border: '1px solid #cfed57',
+							borderRight: '1px solid #cfed57',
+							borderTop: '1px solid #cfed57',
 						}}
 					/>
 					<div
 						style={{
 							gridColumn: 2,
-							border: '1px solid #cfed57',
+							borderLeft: '1px solid #cfed57',
+							borderTop: '1px solid #cfed57',
 						}}
 					/>
 				</div>
@@ -114,9 +114,8 @@ export function Camera({
 			}}
 			onClick={() => {
 				const canvas = document.createElement('canvas');
-				// The OCR performs a bit better with vertically squeezed image
-				canvas.height = 480;
-				canvas.width = 960;
+				canvas.height = 720;
+				canvas.width = 1280;
 				const mediaStream = videoRef.current!.srcObject as MediaStream;
 				const { width: camWidth = 1, height: camHeight = 1 } = mediaStream.getTracks()[0].getSettings();
 				let sourceX = 0;

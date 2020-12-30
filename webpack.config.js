@@ -17,7 +17,10 @@ module.exports = {
       },
       {
         test: /\.(gz)$/i,
-        use: 'file-loader',
+        loader: 'file-loader',
+        options: {
+          name: 'lib/[name].[ext]',
+        },
       },
     ]
   },

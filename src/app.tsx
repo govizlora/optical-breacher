@@ -2,12 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { Camera } from "./camera";
 import { Logger, OCR } from "./ocr";
 import { Result } from "./result";
-import { processResult } from "./utils";
+import { processMatrix, processTargets } from "./utils";
 
 const defaultStat = { progress: 0, status: '' };
-const defaultOcrResult: { pool: string[][], targets: string[][] } = { pool: [], targets: [] }
+const defaultOcrResult: { matrix: string[][], targets: string[][] } = { matrix: [], targets: [] }
 
-// const pool = [
+// const matrix = [
 //   ["1c", "55", "ff", "bd", "e9"],
 //   ["bd", "1c", "e9", "ff", "e9"],
 //   ["55", "bd", "ff", "1c", "1c"],
@@ -24,13 +24,15 @@ const defaultOcrResult: { pool: string[][], targets: string[][] } = { pool: [], 
 
 export function App() {
   const OCRref = useRef<OCR>();
-  const [OcrResult, setOcrResult] = useState(defaultOcrResult)
+  const [ocrResult, setOcrResult] = useState(defaultOcrResult)
   const [stat, setStat] = useState(defaultStat);
   const [showCamera, setShowCamera] = useState(true);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [outputs, setOutputs] = useState<string[]>([]);
 
-  const logger: Logger = useCallback(({ workerID, status, progress = 0 }) => {
-    // Only log the progress of the "pool" since it is more complicated
-    (workerID === 0) && setStat({ status, progress })
+  const logger: Logger = useCallback(({ name, status, progress = 0 }) => {
+    // Only log the progress of the "matrix" since it is more complicated
+    (name === 'matrix') && setStat({ status, progress })
   }, [])
 
   useEffect(() => {
@@ -44,13 +46,28 @@ export function App() {
         onCapture={async (canvas) => {
           setShowCamera(false);
           const result = await OCRref.current!.recognize(canvas, canvas.width, canvas.height);
-          const pool = processResult(result.leftText);
-          const targets = processResult(result.rightText);
-          setOcrResult({ pool, targets })
+          const { lines: matrix, chars } = processMatrix(result.matrixData.text)
+          const targets = processTargets(result.targetsData.text, chars)
+          setOcrResult({ matrix, targets })
+          setOutputs([
+            'Matrix:',
+            ...result.matrixData.text.split('\n'),
+            '===result:',
+            ...matrix.map(l => l.join(' ')),
+            'Targets',
+            ...result.targetsData.text.split('\n'),
+            '===result:',
+            ...processTargets(result.targetsData.text, chars).map(l => l.join(' '))
+          ]);
+          // if (canvasRef.current) {
+          //   canvasRef.current.width = canvas.width;
+          //   canvasRef.current.height = canvas.height;
+          //   canvasRef.current.getContext('2d')?.drawImage(canvas, 0, 0);
+          // }
         }}
       />}
       {!showCamera && <>
-        {stat.status === 'recognizing text' && !OcrResult.pool.length && <div
+        {stat.status === 'recognizing text' && !ocrResult.matrix.length && <div
           style={{
             flex: 1,
             display: "flex",
@@ -60,31 +77,23 @@ export function App() {
         >
           <progress value={stat.progress} />
         </div>}
-        {!!OcrResult.pool.length && <Result
-          pool={OcrResult.pool}
-          targets={OcrResult.targets}
-          // {<Result
-          //   pool={pool}
-          //   targets={targets}
+        {!!ocrResult.matrix.length && <Result
+          matrix={ocrResult.matrix}
+          targets={ocrResult.targets}
           onStartOver={() => {
             setStat(defaultStat);
             setOcrResult(defaultOcrResult);
             setShowCamera(true);
           }}
         />}
-      </>
+      </>}
+      {/* <div>
+        <canvas ref={canvasRef} />
+      </div> */}
 
+      {
+        // outputs.map(o => <div>{o}</div>)
       }
-      {/* <div>Status 0: {status[0]}</div>
-      <div>Status 1: {status[1]}</div> */}
-      {/* <canvas ref={leftCanvasRef} style={{ display: 'inline', width: 320, height: 270 }} />
-			<canvas ref={rightCanvasRef} style={{ display: 'inline', width: 160, height: 270 }} /> */}
-      {/* <canvas ref={rightCanvasRef} /> */}
-      {/* <div>{result.leftText.split('\n').map(v => <div>{v}</div>)}</div>
-      <div>{result.rightText.split('\n').map(v => <div>{v}</div>)}</div>
-      <div>Left:{processResult(result.leftText).map(v => <div style={{ fontFamily: 'monospace' }}>{v.join(' ')}</div>)}</div>
-      <div>Right:{processResult(result.rightText).map(v => <div style={{ fontFamily: 'monospace' }}>{v.join(' ')}</div>)}</div>
-      <div>Answers: {answers.map((a, i) => <div key={i}>{a}</div>)}</div> */}
     </div>
   )
 }
