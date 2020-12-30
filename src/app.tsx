@@ -4,8 +4,9 @@ import { Logger, OCR } from "./ocr";
 import { Result } from "./result";
 import { processMatrix, processTargets } from "./utils";
 
-const defaultStat = { progress: 0, status: '' };
-const defaultOcrResult: { matrix: string[][], targets: string[][] } = { matrix: [], targets: [] }
+const defaultOcrProgress = { matrixProgress: 0, targetsProgress: 0, status: '' };
+const defaultOcrResult: { matrix: string[][], targets: string[][], finished: boolean } =
+  { matrix: [], targets: [], finished: false }
 
 // const matrix = [
 //   ["1c", "55", "ff", "bd", "e9"],
@@ -25,14 +26,20 @@ const defaultOcrResult: { matrix: string[][], targets: string[][] } = { matrix: 
 export function App() {
   const OCRref = useRef<OCR>();
   const [ocrResult, setOcrResult] = useState(defaultOcrResult)
-  const [stat, setStat] = useState(defaultStat);
+  const [ocrProgress, setOcrProgress] = useState(defaultOcrProgress);
   const [showCamera, setShowCamera] = useState(true);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [outputs, setOutputs] = useState<string[]>([]);
+  // const canvasRef = useRef<HTMLCanvasElement>(null);
+  // const [outputs, setOutputs] = useState<string[]>([]);
 
   const logger: Logger = useCallback(({ name, status, progress = 0 }) => {
-    // Only log the progress of the "matrix" since it is more complicated
-    (name === 'matrix') && setStat({ status, progress })
+    console.log('logger', name, status, progress)
+    if (status === 'recognizing text') {
+      setOcrProgress(prev => ({
+        status,
+        matrixProgress: name === 'matrix' ? progress : prev.matrixProgress,
+        targetsProgress: name === 'targets' ? progress : prev.targetsProgress
+      }))
+    }
   }, [])
 
   useEffect(() => {
@@ -41,53 +48,55 @@ export function App() {
   }, [])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', position: "relative" }}>
-      {showCamera && <Camera
-        onCapture={async (canvas) => {
-          setShowCamera(false);
-          const result = await OCRref.current!.recognize(canvas, canvas.width, canvas.height);
-          const { lines: matrix, chars } = processMatrix(result.matrixData.text)
-          const targets = processTargets(result.targetsData.text, chars)
-          setOcrResult({ matrix, targets })
-          setOutputs([
-            'Matrix:',
-            ...result.matrixData.text.split('\n'),
-            '===result:',
-            ...matrix.map(l => l.join(' ')),
-            'Targets',
-            ...result.targetsData.text.split('\n'),
-            '===result:',
-            ...processTargets(result.targetsData.text, chars).map(l => l.join(' '))
-          ]);
-          // if (canvasRef.current) {
-          //   canvasRef.current.width = canvas.width;
-          //   canvasRef.current.height = canvas.height;
-          //   canvasRef.current.getContext('2d')?.drawImage(canvas, 0, 0);
-          // }
-        }}
-      />}
-      {!showCamera && <>
-        {stat.status === 'recognizing text' && !ocrResult.matrix.length && <div
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        // position: "relative"
+      }}
+    >
+      {showCamera ?
+        <Camera
+          onCapture={async (canvas) => {
+            setShowCamera(false);
+            const result = await OCRref.current!.recognize(canvas, canvas.width, canvas.height);
+            const { lines: matrix, chars } = processMatrix(result.matrixData.text)
+            const targets = processTargets(result.targetsData.text, chars)
+            setOcrResult({ matrix, targets, finished: true })
+            // setOutputs([
+            //   'Matrix:',
+            //   ...result.matrixData.text.split('\n'),
+            //   '===result:',
+            //   ...matrix.map(l => l.join(' ')),
+            //   'Targets',
+            //   ...result.targetsData.text.split('\n'),
+            //   '===result:',
+            //   ...processTargets(result.targetsData.text, chars).map(l => l.join(' '))
+            // ]);
+            // if (canvasRef.current) {
+            //   canvasRef.current.width = canvas.width;
+            //   canvasRef.current.height = canvas.height;
+            //   canvasRef.current.getContext('2d')?.drawImage(canvas, 0, 0);
+            // }
           }}
-        >
-          <progress value={stat.progress} />
-        </div>}
-        {!!ocrResult.matrix.length &&
+        /> :
+        ocrResult.finished ?
           <Result
             matrix={ocrResult.matrix}
             targets={ocrResult.targets}
             onStartOver={() => {
-              setStat(defaultStat);
+              setOcrProgress(defaultOcrProgress);
               setOcrResult(defaultOcrResult);
               setShowCamera(true);
             }}
-          />}
-      </>}
+          /> :
+          <progress
+            style={{ margin: 'auto' }}
+            value={ocrProgress.status === 'recognizing text' ?
+              (ocrProgress.matrixProgress + ocrProgress.targetsProgress) / 2 : 0}
+          />
+      }
       {/* <div>
         <canvas ref={canvasRef} />
       </div> */}

@@ -83,8 +83,8 @@ export function Camera({
 						display: 'grid',
 						top: 0,
 						gridTemplateColumns: '5fr 2fr',
-						columnGap: 18,
-						padding: 8,
+						// columnGap: 16,
+						padding: 4,
 						// Ideally "100%" is enough, but it doesn't work on iOS
 						width: dim.width,
 						height: dim.height
@@ -93,29 +93,29 @@ export function Camera({
 					<div
 						style={{
 							gridColumn: 1,
-							borderRight: '1px solid #cfed57',
-							borderTop: '1px solid #cfed57',
+							border: '1px dashed #cfed57',
 						}}
 					/>
 					<div
 						style={{
 							gridColumn: 2,
-							borderLeft: '1px solid #cfed57',
-							borderTop: '1px solid #cfed57',
+							border: '1px dashed #cfed57',
+							borderLeft: 0,
 						}}
 					/>
 				</div>
 			}
 		</div>
 		<button
+			className='main'
 			style={{
 				margin: 'auto',
 				marginBottom: 32,
 			}}
 			onClick={() => {
 				const canvas = document.createElement('canvas');
-				canvas.height = 720;
 				canvas.width = 1280;
+				canvas.height = canvas.width / ratio;
 				const mediaStream = videoRef.current!.srcObject as MediaStream;
 				const { width: camWidth = 1, height: camHeight = 1 } = mediaStream.getTracks()[0].getSettings();
 				let sourceX = 0;
@@ -143,7 +143,7 @@ export function Camera({
 					canvas.width,
 					canvas.height
 				)
-				threshold(context, 0.9)
+				threshold(context, 0.8)
 				onCapture(canvas)
 			}}
 		>

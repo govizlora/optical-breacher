@@ -6,12 +6,13 @@ export function Result({ matrix, targets, onStartOver }: {
   targets: string[][];
   onStartOver(): void;
 }) {
-  const bufferSizeLocal = window.localStorage.getItem('buffer_size') || '4';
+  const bufferSizeLocal = window.localStorage.getItem('buffer_size') || '8';
   const [bufferSize, setBufferSize] = useState(parseInt(bufferSizeLocal, 10));
   const [hiddenTargets, setHiddenTargets] = useState<Set<number>>(new Set());
+  const inputIsValid = matrix.length > 2 && targets.length && matrix[0].length > 2;
   const final = useMemo(() => {
     const targetsToUse = targets.filter((_t, i) => !hiddenTargets.has(i))
-    if (matrix.length && targetsToUse.length && bufferSize) {
+    if (inputIsValid && targetsToUse.length && bufferSize) {
       const chosens = solve(matrix, targetsToUse, bufferSize);
       const chosenSeq = chosens[0] || { seq: [], matchedIndices: [] };
       const chosenBytes: Record<string, number> = {};
@@ -21,7 +22,11 @@ export function Result({ matrix, targets, onStartOver }: {
       return { chosenBytes, matched: new Set(chosenSeq.matchedIndices) };
     }
     return { chosenBytes: {} as Record<string, number>, matched: new Set() }
-  }, [matrix, targets, bufferSize, hiddenTargets])
+  }, [matrix, targets, bufferSize, hiddenTargets, inputIsValid])
+
+  if (!inputIsValid) {
+    // throw Error('OCR result unacceptable');
+  }
 
   return <>
     <div style={{ margin: 16 }}>
@@ -160,6 +165,7 @@ export function Result({ matrix, targets, onStartOver }: {
         marginBottom: 32,
       }}
       onClick={onStartOver}
+      className='main'
     >
       START OVER
     </button>

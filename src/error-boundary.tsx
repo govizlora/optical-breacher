@@ -1,26 +1,63 @@
-import { Component } from 'react'
+import { Component, ErrorInfo } from 'react'
+
+interface State {
+  error: Error | null;
+  componentStack: string;
+}
+
+const defaultState: State = { error: null, componentStack: '' }
 
 export class ErrorBoundary extends Component {
-  state = { error: undefined }
-
-  constructor(props: {}) {
-    super(props)
-  }
+  state = defaultState;
 
   static getDerivedStateFromError(error: Error) {
-    // Update state so the next render will show the fallback UI.
     return { error };
   }
 
-  componentDidCatch() {
-    // You can also log the error to an error reporting service
-    // logErrorToMyService(error, errorInfo);
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    this.setState({ componentStack: errorInfo.componentStack })
   }
 
   render() {
-    if (this.state.error) {
-      // You can render any custom fallback UI
-      return <h1>{this.state.error}</h1>;
+    const { error, componentStack } = this.state;
+    if (error && componentStack) {
+      return (
+        <div
+          style={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            padding: 16,
+            boxSizing: 'border-box',
+            overflow: 'auto',
+            whiteSpace: 'pre-wrap',
+            textTransform: 'uppercase',
+            fontSize: '0.5em',
+            alignItems: 'start'
+          }}
+        >
+          <div style={{ fontSize: '3rem' }}>ERROR</div>
+          <div style={{ fontSize: '1rem', marginBottom: 16, }}>Reload required</div>
+          <button
+            style={{
+              color: '#FF6060',
+              marginBottom: 32,
+              fontSize: '1rem',
+              padding: '8px 16px',
+              flexShrink: 0,
+            }}
+            onClick={() => { this.setState(defaultState) }}
+          >
+            RELOAD
+          </button>
+          <div>{`${error}`}</div>
+          <div style={{ marginTop: 8 }}>ERROR STACK &gt;&gt;&gt;</div>
+          <div>{error.stack}</div>
+          <div style={{ marginTop: 8 }}>COMPONENT STACK &gt;&gt;&gt;</div>
+          <div>{componentStack.split('\n').slice(1).join('\n')}</div>
+        </div>
+      )
     }
 
     return this.props.children;
