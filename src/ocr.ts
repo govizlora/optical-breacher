@@ -27,7 +27,6 @@ export class OCR {
       matrixWorker.recognize(image, { rectangle: { left: 0, top: 0, width: width / 7 * 5, height } }),
       targetsWorker.recognize(image, { rectangle: { left: width / 7 * 5, top: 0, width: width / 7 * 2, height } })
     ]);
-    console.log('finished', results)
     return {
       matrixData: results[0].data as Page,
       targetsData: results[1].data as Page,

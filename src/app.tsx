@@ -7,26 +7,26 @@ import { processMatrix, processTargets } from "./utils";
 const defaultStat = { progress: 0, status: '' };
 const defaultOcrResult: { matrix: string[][], targets: string[][] } = { matrix: [], targets: [] }
 
-// const matrix = [
-//   ["1c", "55", "ff", "bd", "e9"],
-//   ["bd", "1c", "e9", "ff", "e9"],
-//   ["55", "bd", "ff", "1c", "1c"],
-//   ["e9", "bd", "1c", "55", "55"],
-//   ["55", "e9", "bd", "55", "ff"]
-// ];
+const matrix = [
+  ["1c", "55", "ff", "bd", "e9"],
+  ["bd", "1c", "e9", "ff", "e9"],
+  ["55", "bd", "ff", "1c", "1c"],
+  ["e9", "bd", "1c", "55", "55"],
+  ["55", "e9", "bd", "55", "ff"]
+];
 
-// const targets = [
-//   ["e9", "55"],
-//   ["55", "bd", "e9"],
-//   ["ff", "1c", "bd", "e9"],
-//   ["55", "1c", "ff", "55"]
-// ];
+const targets = [
+  ["e9", "55"],
+  ["55", "bd", "e9"],
+  ["ff", "1c", "bd", "e9"],
+  ["55", "1c", "ff", "55"]
+];
 
 export function App() {
   const OCRref = useRef<OCR>();
   const [ocrResult, setOcrResult] = useState(defaultOcrResult)
   const [stat, setStat] = useState(defaultStat);
-  const [showCamera, setShowCamera] = useState(true);
+  const [showCamera, setShowCamera] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [outputs, setOutputs] = useState<string[]>([]);
 
@@ -42,7 +42,7 @@ export function App() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', position: "relative" }}>
-      {showCamera && <Camera
+      {/* {showCamera && <Camera
         onCapture={async (canvas) => {
           setShowCamera(false);
           const result = await OCRref.current!.recognize(canvas, canvas.width, canvas.height);
@@ -65,7 +65,7 @@ export function App() {
           //   canvasRef.current.getContext('2d')?.drawImage(canvas, 0, 0);
           // }
         }}
-      />}
+      />} */}
       {!showCamera && <>
         {stat.status === 'recognizing text' && !ocrResult.matrix.length && <div
           style={{
@@ -77,9 +77,10 @@ export function App() {
         >
           <progress value={stat.progress} />
         </div>}
-        {!!ocrResult.matrix.length && <Result
-          matrix={ocrResult.matrix}
-          targets={ocrResult.targets}
+        {/* {!!ocrResult.matrix.length && <Result */}
+        {<Result
+          matrix={matrix}
+          targets={targets}
           onStartOver={() => {
             setStat(defaultStat);
             setOcrResult(defaultOcrResult);

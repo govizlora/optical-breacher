@@ -8,16 +8,20 @@ export function Result({ matrix, targets, onStartOver }: {
 }) {
   const bufferSizeLocal = window.localStorage.getItem('buffer_size') || '4';
   const [bufferSize, setBufferSize] = useState(parseInt(bufferSizeLocal, 10));
-  // const chosen: Record<string, number> = {}
-  const chosen = useMemo(() => {
-    const chosens = matrix.length && targets.length ? solve(matrix, targets) : [];
-    const chosenSeq = chosens[0] || [];
-    const c: Record<string, number> = {};
-    chosenSeq.forEach(([row, col], i) => {
-      c[`${row},${col}`] = i;
-    })
-    return c;
-  }, [matrix, targets])
+  const [hiddenTargets, setHiddenTargets] = useState<Set<number>>(new Set());
+  const final = useMemo(() => {
+    const targetsToUse = targets.filter((_t, i) => !hiddenTargets.has(i))
+    if (matrix.length && targetsToUse.length && bufferSize) {
+      const chosens = solve(matrix, targetsToUse, bufferSize);
+      const chosenSeq = chosens[0] || { seq: [], matchedIndices: [] };
+      const chosenBytes: Record<string, number> = {};
+      chosenSeq.seq.forEach(([row, col], i) => {
+        chosenBytes[`${row},${col}`] = i;
+      })
+      return { chosenBytes, matched: new Set(chosenSeq.matchedIndices) };
+    }
+    return { chosenBytes: {} as Record<string, number>, matched: new Set() }
+  }, [matrix, targets, bufferSize, hiddenTargets])
 
   return <>
     <div style={{ margin: 16 }}>
@@ -32,7 +36,7 @@ export function Result({ matrix, targets, onStartOver }: {
         }}
         value={bufferSize}
         onChange={e => {
-          const bufferSize = Math.min(Math.max(parseInt(e.target.value, 10), 2), 10)
+          const bufferSize = Math.min(Math.max(parseInt(e.target.value, 10), 4), 8)
           setBufferSize(bufferSize);
           window.localStorage.setItem('buffer_size', `${bufferSize}`)
         }}
@@ -63,9 +67,10 @@ export function Result({ matrix, targets, onStartOver }: {
             display: 'flex',
             justifyContent: 'center'
           }}
+          key={row}
         >
           {line.map((byte, col) => {
-            const index = chosen[`${row},${col}`];
+            const index = final.chosenBytes[`${row},${col}`];
             return <span
               style={{
                 position: 'relative',
@@ -78,6 +83,7 @@ export function Result({ matrix, targets, onStartOver }: {
                 justifyContent: 'center',
                 alignItems: 'center'
               }}
+              key={`${byte}${col}`}
             >
               {byte}
               {index !== undefined &&
@@ -115,24 +121,38 @@ export function Result({ matrix, targets, onStartOver }: {
       >
         TARGET SEQUENCES
       </div>
-      {targets.map(target =>
-        <div style={{ paddingLeft: 16 }}>
-          {target.map(byte =>
-            <div
+      {targets.map((target, i) =>
+        hiddenTargets.has(i) ? null :
+          <div style={{ paddingLeft: 16 }} key={i}>
+            {target.map((byte, j) =>
+              <div
+                style={{
+                  display: 'inline-flex',
+                  color: final.matched.has(i) ? '#cfed57' : '#FFFFFF40',
+                  fontSize: '1.1em',
+                  textTransform: 'uppercase',
+                  width: 32,
+                  height: 28,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+                key={`${byte}${j}`}
+              >
+                {byte}
+              </div>)}
+            <a
               style={{
-                display: 'inline-flex',
-                color: 'white',
-                fontSize: '1.1em',
-                textTransform: 'uppercase',
-                width: 32,
-                height: 28,
-                justifyContent: 'center',
-                alignItems: 'center'
+                display: 'float',
+                float: 'right',
+                marginRight: 16,
+                color: '#cfed57'
               }}
-            >
-              {byte}
-            </div>)}
-        </div>)}
+              onClick={() => { setHiddenTargets(new Set(hiddenTargets).add(i)) }}
+              href='#'>
+              X
+            </a>
+          </div>)
+      }
     </div>
     <button
       style={{
