@@ -147,7 +147,7 @@ export function Camera({
 				onCapture(canvas)
 			}}
 		>
-			CAPTURE
+			SCAN
 		</button>
 	</>
 }

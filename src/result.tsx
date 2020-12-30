@@ -149,7 +149,7 @@ export function Result({ matrix, targets, onStartOver }: {
               }}
               onClick={() => { setHiddenTargets(new Set(hiddenTargets).add(i)) }}
               href='#'>
-              X
+              Remove
             </a>
           </div>)
       }
