@@ -2,8 +2,8 @@ const path = require('path');
 const fs = require('fs')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-  mode: 'development',
+module.exports = env => ({
+  mode: !!env.production ? 'production' : 'development',
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -38,4 +38,4 @@ module.exports = {
       cert: fs.readFileSync('./certs/server.crt'),
     }
   }
-};
+});
