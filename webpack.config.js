@@ -34,9 +34,7 @@ module.exports = env => ({
     historyApiFallback: true,
     useLocalIp: true,
     http2: true,
-    https: {
-      key: fs.readFileSync('./certs/server.key'),
-      cert: fs.readFileSync('./certs/server.crt'),
-    }
+    // Accessing camera requires HTTPS
+    https: true,
   }
 });
