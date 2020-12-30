@@ -30,7 +30,7 @@
     }
 
     #root {
-      height: 100%;
+      height: calc(100% - 12px);
       border: 1px solid #ff606080;
     }
 
@@ -46,6 +46,7 @@
       color: #5ef5ff;
       width: 160px;
       height: 64px;
+      flex-shrink: 0;
     }
 
     @media (hover: hover) and (pointer: fine) {
@@ -67,7 +68,7 @@
       background-color: #ff606040;
       border: 1px solid #ff606080;
       color: #ff6060;
-      height: 24px;
+      height: 16px;
       font-size: 1em;
     }
 
@@ -93,6 +94,11 @@
 
 <body>
   <div id="root"></div>
+  <div style="font-size: 0.6em; display: flex;">
+    <a style="margin-left: auto; color:#ff606080" href="https://github.com/govizlora/optical-breacher" target="_blank">
+      GITHUB
+    </a>
+  </div>
 </body>
 
 </html>

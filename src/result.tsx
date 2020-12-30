@@ -29,7 +29,7 @@ export function Result({ matrix, targets, onStartOver }: {
   }
 
   return <>
-    <div style={{ margin: 16 }}>
+    <div style={{ margin: '8px 16px' }}>
       <label>BUFFER SIZE:</label>
       <input
         type="number"

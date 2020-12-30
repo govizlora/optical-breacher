@@ -32,7 +32,6 @@ export function App() {
   // const [outputs, setOutputs] = useState<string[]>([]);
 
   const logger: Logger = useCallback(({ name, status, progress = 0 }) => {
-    console.log('logger', name, status, progress)
     if (status === 'recognizing text') {
       setOcrProgress(prev => ({
         status,
