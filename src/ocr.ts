@@ -35,7 +35,7 @@ export class OCR {
 
   private async createWorker(name: string, params: Partial<WorkerParams>) {
     const worker = createWorker({
-      langPath: 'lib',
+      langPath: './lib',
       logger: args => this.logger({ name, ...args })
     });
     await worker.load();
