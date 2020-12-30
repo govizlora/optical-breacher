@@ -1,6 +1,10 @@
 import { createWorker, OEM, PSM, ImageLike, Page, WorkerParams, Worker } from 'tesseract.js'
 // @ts-ignore
-import './lib/cyber.traineddata.gz'
+import '../lib/cyber.traineddata.gz'
+// @ts-ignore
+import workerPath from '../lib/worker.min.js'
+// @ts-ignore
+import corePath from '../lib/tesseract-core.wasm.js'
 
 export type Logger = (packet: { name: string, status: string; progress?: number }) => void
 
@@ -36,6 +40,8 @@ export class OCR {
   private async createWorker(name: string, params: Partial<WorkerParams>) {
     const worker = createWorker({
       langPath: './lib',
+      workerPath,
+      corePath,
       logger: args => this.logger({ name, ...args })
     });
     await worker.load();
