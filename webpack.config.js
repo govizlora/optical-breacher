@@ -16,11 +16,15 @@ module.exports = env => ({
         use: 'ts-loader'
       },
       {
-        test: /(\.gz|\.jpg|tesseract-core\.wasm\.js|worker\.min\.js)$/i,
+        test: /(\.gz|\.jpg|tesseract-core\.wasm\.js|worker\.min\.js|\.woff2)$/i,
         loader: 'file-loader',
         options: {
           name: 'lib/[name].[ext]',
         },
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
       },
     ]
   },

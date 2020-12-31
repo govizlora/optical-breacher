@@ -1,0 +1,90 @@
+    /* latin */
+    @font-face {
+      font-family: 'Barlow';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url(../assets/barlow-latin-400.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    body {
+      background-color: #100606;
+      /* overflow: hidden; */
+      box-sizing: border-box;
+      height: 100%;
+      margin: unset;
+      padding: 8px;
+      font-family: 'Barlow', sans-serif;
+      color: #ff6060;
+    }
+
+    #root {
+      height: calc(100% - 12px);
+      border: 1px solid #ff606080;
+    }
+
+    button {
+      font-family: inherit;
+      border: 1px solid #ff606080;
+      background-color: #ff606010;
+      cursor: pointer;
+    }
+
+    button.main {
+      font-size: 1.2em;
+      color: #5ef5ff;
+      width: 160px;
+      height: 64px;
+      flex-shrink: 0;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      button:hover {
+        border: 1px solid #ff6060;
+        background-color: #ff606040;
+      }
+    }
+
+    button:active {
+      background-color: #ff606060;
+    }
+
+    button:focus {
+      outline: unset;
+    }
+
+    input {
+      background-color: #ff606040;
+      border: 1px solid #ff606080;
+      color: #ff6060;
+      height: 16px;
+      font-size: 1em;
+    }
+
+    input:focus {
+      outline: unset;
+      border: 1px solid #ff6060;
+    }
+
+    progress {
+      border: 1px solid #ff6060;
+      padding: 4px
+    }
+
+    progress::-webkit-progress-bar {
+      background-color: unset
+    }
+
+    progress::-webkit-progress-value {
+      background-color: #ff6060;
+    }
