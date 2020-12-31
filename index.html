@@ -5,36 +5,37 @@
 
     html {
       height: 100%;
-      background-color: black;
     }
 
     body {
-      background-color: #ff606010;
-      overflow: auto;
+      background-color: #100606;
+      /* overflow: hidden; */
       box-sizing: border-box;
       height: 100%;
       margin: unset;
       padding: 8px;
-      display: flex;
-      flex-direction: column;
       font-family: 'Barlow', sans-serif;
       color: #ff6060;
     }
 
     #root {
+      height: calc(100% - 12px);
       border: 1px solid #ff606080;
-      flex: 1;
     }
 
     button {
-      font-size: 1.2em;
       font-family: inherit;
-      color: #5ef5ff;
       border: 1px solid #ff606080;
       background-color: #ff606010;
-      width: 160px;
-      height: 60px;
       cursor: pointer;
+    }
+
+    button.main {
+      font-size: 1.2em;
+      color: #5ef5ff;
+      width: 160px;
+      height: 64px;
+      flex-shrink: 0;
     }
 
     @media (hover: hover) and (pointer: fine) {
@@ -56,7 +57,7 @@
       background-color: #ff606040;
       border: 1px solid #ff606080;
       color: #ff6060;
-      height: 24px;
+      height: 16px;
       font-size: 1em;
     }
 
@@ -76,4 +77,4 @@
 
     progress::-webkit-progress-value {
       background-color: #ff6060;
-    }</style></head><body><div id="root"></div><script src="main.46623364a0cd46492e9d.js"></script></body></html>
+    }</style></head><body><div id="root"></div><div style="font-size: 0.6em; display: flex;"><a style="margin-left: auto; color:#ff606080" href="https://github.com/govizlora/optical-breacher" target="_blank">GITHUB</a></div><script src="main.42d40069a0d412f0e6c3.js"></script></body></html>
