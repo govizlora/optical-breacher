@@ -4,10 +4,6 @@ An online Cyberpunk 2077 breach protocol minigame solver using camera + OCR
 
 Website: https://govizlora.github.io/optical-breacher
 
-## Screenshots
-![Screenshot 1](assets/sc1.PNG)
-![Screenshot 2](assets/sc2.PNG)
-
 ## Details
 The puzzle solving algorithm is simply brute force. (Better ideas welcomed!)
 
@@ -17,6 +13,10 @@ The OCR part took the most time. I initailly used the default English OCR provid
 
 ## Local develop
 Make sure you have `node` and `yarn` installed, then clone the repo and run `yarn start`.
+
+## Screenshots
+![Screenshot 1](assets/sc1.PNG)
+![Screenshot 2](assets/sc2.PNG)
 
 ## Acknowledgement
 - https://github.com/kyle-rader/breach for test data
