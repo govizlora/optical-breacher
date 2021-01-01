@@ -47,12 +47,7 @@ export function Camera({
 			navigator.mediaDevices.getUserMedia(
 				{
 					audio: false,
-					video: {
-						facingMode: "environment",
-						// Use a big enough resolution to get the native resolution
-						width: { ideal: 7680 },
-						height: { ideal: 4320 }
-					}
+					video: { facingMode: "environment" }
 				}
 			).then(mediaStream => {
 				videoRef.current!.srcObject = mediaStream;
@@ -128,8 +123,6 @@ export function Camera({
 			}}
 			onClick={() => {
 				const canvas = document.createElement('canvas');
-				canvas.width = 1280;
-				canvas.height = canvas.width / ratio;
 				const mediaStream = videoRef.current!.srcObject as MediaStream;
 				const { width: camWidth = 1, height: camHeight = 1 } = mediaStream.getTracks()[0].getSettings();
 				let sourceX = 0;
@@ -141,10 +134,14 @@ export function Camera({
 					const captureWidth = camHeight * ratio;
 					sourceX = (camWidth - captureWidth) / 2;
 					sourceW = captureWidth;
+					canvas.height = Math.min(camHeight, 720);
+					canvas.width = canvas.height * ratio;
 				} else {
 					const captureHeight = camWidth / ratio;
 					sourceY = (camHeight - captureHeight) / 2;
 					sourceH = captureHeight;
+					canvas.width = Math.min(camWidth, 1280);
+					canvas.height = canvas.width / ratio;
 				}
 				context.drawImage(
 					videoRef.current!,
