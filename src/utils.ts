@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 const byteMap: Record<string, string> = {
   1: '1C',
   7: '7A',
@@ -49,3 +51,13 @@ export const processTargets = (res: string, matrixBytes: Set<string>) => res
       && bytes.length <= 4
       && bytes.every(byte => matrixBytes.has(byte))
   );
+
+export function useStorage(storageKey: string, initialState?: string) {
+  const storedValue = window.localStorage.getItem(storageKey) || initialState;
+  const [state, setState] = useState(storedValue);
+  useEffect(() => {
+    typeof state === 'string' && window.localStorage.setItem(storageKey, state)
+  }, [state])
+
+  return [state, setState] as const;
+}

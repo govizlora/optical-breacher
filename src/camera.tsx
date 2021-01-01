@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 // @ts-ignore
 import exampleImg from '../assets/example.jpg'
+import { useStorage } from "./utils";
 
 const ratio = 16 / 9;
 
@@ -26,6 +27,11 @@ export function Camera({
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [exampleOn, setExampleOn] = useState(false);
+	const [cameraSelectOn, setCameraSelectOn] = useState(false);
+	const [furthurHelpOn, setFurthurHelpOn] = useState(false);
+	const [devices, setDevices] = useState<MediaDeviceInfo[]>();
+	const [deviceId, setDeviceId] = useState<string>();
+	const [nativeResolutionOn, setNativeResolutionOn] = useStorage('nativeResolutionOn', '0')
 
 	const updateDimension = useCallback(() => {
 		if (videoRef.current && containerRef.current) {
@@ -42,21 +48,41 @@ export function Camera({
 		return () => { window.removeEventListener('resize', updateDimension) }
 	}, [updateDimension])
 
+	// Get the video stream from the camera
 	useEffect(() => {
-		if (videoRef.current && !videoRef.current.srcObject) {
-			navigator.mediaDevices.getUserMedia(
-				{
+		if (videoRef.current) {
+			try {
+				navigator.mediaDevices.getUserMedia({
 					audio: false,
-					video: { facingMode: "environment" }
-				}
-			).then(mediaStream => {
-				videoRef.current!.srcObject = mediaStream;
-			})
+					video: {
+						...(nativeResolutionOn === '1' ? { width: { ideal: 7680 }, height: { ideal: 4320 } } : undefined),
+						...(deviceId ? { deviceId: { exact: deviceId } } : { facingMode: "environment" })
+					}
+				}).then(mediaStream => {
+					videoRef.current!.srcObject = mediaStream;
+				})
+			} catch {
+				throw new Error('WebRTC not supported');
+			}
 		}
-	}, [])
+	}, [deviceId, nativeResolutionOn])
+
+	// Get the list of available video input devices.
+	// Only used when the user clicks "Camera not working?"
+	useEffect(() => {
+		const getDevices = async () => {
+			try {
+				const deviceInfos = await navigator.mediaDevices.enumerateDevices();
+				setDevices(deviceInfos.filter(({ kind }) => kind === 'videoinput'));
+			} catch {
+				throw new Error('WebRTC not supported');
+			}
+		}
+		cameraSelectOn && getDevices();
+	}, [cameraSelectOn])
 
 	return <>
-		<div style={{ position: 'relative', margin: 16, border: '1px solid #ff606060', overflow: 'hidden' }}>
+		<div style={{ position: 'relative', margin: 16, border: '1px solid #ff606060', overflow: 'hidden', flexShrink: 0 }}>
 			<div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 4px', color: '#cfed57' }}>
 				<div>CODE MATRIX</div>
 				<div>SEQUENCE</div>
@@ -86,7 +112,6 @@ export function Camera({
 							display: 'grid',
 							top: 0,
 							gridTemplateColumns: '5fr 2fr',
-							// columnGap: 16,
 							padding: 4,
 							// Ideally "100%" is enough, but it doesn't work on iOS
 							width: dim.width,
@@ -110,16 +135,51 @@ export function Camera({
 				}
 			</div>
 		</div>
-		<div style={{ margin: '0 16px' }}>
+
+		<div style={{ margin: 16, marginTop: 0, overflow: 'auto' }}>
 			Move the camera as close to the screen as possile. Avoid rotation or tilt.
-			{exampleOn ? <div><img style={{ width: '70%' }} src={exampleImg} /></div> :
-				<a style={{ color: '#FF6060', marginLeft: 4 }} href="#" onClick={() => { setExampleOn(true) }}>Show the example</a>}
+			<a style={{ marginLeft: 4 }} href="#" onClick={() => { setExampleOn(!exampleOn) }}>
+				{exampleOn ? 'Hide' : 'Show'} the example
+			</a>
+			{exampleOn && <div><img style={{ width: '70%' }} src={exampleImg} /></div>}
+			<div style={{ marginTop: 8 }}>
+				{!cameraSelectOn ?
+					<a onClick={() => { setCameraSelectOn(true) }} href="#">Camera not working?</a> :
+					<>
+						<div>- Specify the camera to use:</div>
+						<select onChange={e => { setDeviceId(e.target.value) }} value={deviceId}>
+							{devices && devices.map(({ label, deviceId }, i) =>
+								<option value={deviceId} key={deviceId}>
+									{i + 1}: {label}
+								</option>)}
+						</select>
+						<label style={{ display: 'block', marginTop: 8 }}>
+							-
+							<input
+								type="checkbox"
+								checked={nativeResolutionOn === '1'}
+								onChange={() => { setNativeResolutionOn(nativeResolutionOn === '0' ? '1' : '0') }}
+							/>
+							Use native resolution <small style={{ fontSize: '0.6em' }}>(no impact to OCR accuracy, but may fix the black camera issue)</small>
+						</label>
+						{!furthurHelpOn ?
+							<a onClick={() => { setFurthurHelpOn(true) }} href="#">Still not working?</a> :
+							<>
+								<p>iOS user: Please use Safari browser (see <a href="https://stackoverflow.com/a/29164511" target="_blank">why</a>
+								). Make sure you have granted access to the camera (Settings - Safari - Camera - choose "Ask")</p>
+								<p>Android user: If none of the options above work, please check <a href="https://github.com/govizlora/optical-breacher/issues/7" target="_blank">this issue</a>.</p>
+							</>
+						}
+					</>
+				}
+			</div>
 		</div>
+
 		<button
 			className='main'
 			style={{
 				margin: 'auto',
-				marginBottom: 32,
+				marginBottom: 24,
 			}}
 			onClick={() => {
 				const canvas = document.createElement('canvas');
