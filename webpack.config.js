@@ -1,19 +1,19 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-module.exports = env => ({
+module.exports = (env) => ({
   mode: !!env.production ? 'production' : 'development',
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].js'
+    filename: '[name].[contenthash].js',
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: 'ts-loader'
+        use: 'ts-loader',
       },
       {
         test: /(\.gz|\.jpg|tesseract-core\.wasm\.js|worker\.min\.js|\.woff2)$/i,
@@ -24,12 +24,12 @@ module.exports = env => ({
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
-    ]
+    ],
   },
   resolve: {
-    extensions: ['.js', '.ts', '.tsx']
+    extensions: ['.js', '.ts', '.tsx'],
   },
   plugins: [new HtmlWebpackPlugin({ template: 'src/index.html' })],
   devServer: {
@@ -39,5 +39,5 @@ module.exports = env => ({
     http2: true,
     // Accessing camera requires HTTPS
     https: true,
-  }
-});
+  },
+})
