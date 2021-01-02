@@ -73,3 +73,20 @@ export function useStorage(storageKey: string, initialState?: string) {
 
   return [state, setState] as const
 }
+
+export function threshold(context: CanvasRenderingContext2D, t: number) {
+  const imageData = context.getImageData(
+    0,
+    0,
+    context.canvas.width,
+    context.canvas.height
+  )
+  const thres = t * 255
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    const c = imageData.data[i + 1] < thres ? 255 : 0
+    imageData.data[i] = c
+    imageData.data[i + 1] = c
+    imageData.data[i + 2] = c
+  }
+  context.putImageData(imageData, 0, 0)
+}

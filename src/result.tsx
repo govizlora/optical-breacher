@@ -12,11 +12,13 @@ export function Result({
 }) {
   const bufferSizeLocal = window.localStorage.getItem('buffer_size') || '8'
   const [bufferSize, setBufferSize] = useState(parseInt(bufferSizeLocal, 10))
-  const [hiddenTargets, setHiddenTargets] = useState<Set<number>>(new Set())
+  const [hiddenTargets, setHiddenTargets] = useState<Set<string>>(new Set())
   const inputIsValid =
     matrix.length > 2 && targets.length && matrix[0].length > 2
   const final = useMemo(() => {
-    const targetsToUse = targets.filter((_t, i) => !hiddenTargets.has(i))
+    const targetsToUse = targets.filter(
+      (target) => !hiddenTargets.has(target.join('-'))
+    )
     if (inputIsValid && targetsToUse.length && bufferSize) {
       const chosens = solve(matrix, targetsToUse, bufferSize)
       const chosenSeq = chosens[0] || { seq: [], matchedIndices: [] }
@@ -81,7 +83,7 @@ export function Result({
               display: 'flex',
               justifyContent: 'center',
             }}
-            key={row}
+            key={`${line.join('-')}-${row}`}
           >
             {line.map((byte, col) => {
               const index = final.chosenBytes[`${row},${col}`]
@@ -98,7 +100,7 @@ export function Result({
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  key={`${byte}${col}`}
+                  key={`${byte}-${col}`}
                 >
                   {byte}
                   {index !== undefined && (
@@ -139,9 +141,10 @@ export function Result({
         >
           TARGET SEQUENCES
         </div>
-        {targets.map((target, i) =>
-          hiddenTargets.has(i) ? null : (
-            <div style={{ paddingLeft: 16 }} key={i}>
+        {targets
+          .filter((target) => !hiddenTargets.has(target.join('-')))
+          .map((target, i) => (
+            <div style={{ paddingLeft: 16 }} key={target.join('-')}>
               {target.map((byte, j) => (
                 <div
                   style={{
@@ -154,7 +157,7 @@ export function Result({
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}
-                  key={`${byte}${j}`}
+                  key={`${byte}-${j}`}
                 >
                   {byte}
                 </div>
@@ -167,15 +170,14 @@ export function Result({
                   color: '#cfed57',
                 }}
                 onClick={() => {
-                  setHiddenTargets(new Set(hiddenTargets).add(i))
+                  setHiddenTargets(new Set(hiddenTargets).add(target.join('-')))
                 }}
                 href="#"
               >
                 Remove
               </a>
             </div>
-          )
-        )}
+          ))}
       </div>
       <button
         style={{

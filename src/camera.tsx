@@ -1,26 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 // @ts-ignore
 import exampleImg from '../assets/example.jpg'
-import { useStorage } from './utils'
+import { threshold, useStorage } from './utils'
 
 const ratio = 16 / 9
-
-function threshold(context: CanvasRenderingContext2D, t: number) {
-  const imageData = context.getImageData(
-    0,
-    0,
-    context.canvas.width,
-    context.canvas.height
-  )
-  const thres = t * 255
-  for (let i = 0; i < imageData.data.length; i += 4) {
-    const c = imageData.data[i + 1] < thres ? 255 : 0
-    imageData.data[i] = c
-    imageData.data[i + 1] = c
-    imageData.data[i + 2] = c
-  }
-  context.putImageData(imageData, 0, 0)
-}
 
 export function Camera({
   onCapture,
@@ -104,7 +87,7 @@ export function Camera({
           position: 'relative',
           margin: 16,
           border: '1px solid #ff606060',
-          overflow: 'hidden',
+          // overflow: 'hidden',
           flexShrink: 0,
         }}
       >
@@ -224,7 +207,7 @@ export function Camera({
                 />
                 Use native resolution{' '}
                 <small style={{ fontSize: '0.6em' }}>
-                  (may fix the black camera issue)
+                  (turning it off may fix the black camera issue)
                 </small>
               </label>
               {!furthurHelpOn ? (
@@ -309,7 +292,7 @@ export function Camera({
             canvas.width,
             canvas.height
           )
-          threshold(context, 0.8)
+          threshold(context, 0.85)
           onCapture(canvas)
         }}
       >

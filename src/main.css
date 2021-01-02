@@ -21,18 +21,17 @@ html {
 
 body {
   background-color: #100606;
-  /* overflow: hidden; */
-  box-sizing: border-box;
-  height: 100%;
-  margin: unset;
+  height: inherit;
   padding: 8px;
+  margin: unset;
+  box-sizing: border-box;
   font-family: 'Barlow', sans-serif;
   color: #ff6060;
+  overflow: hidden;
 }
 
 #root {
-  height: calc(100% - 12px);
-  border: 1px solid #ff606080;
+  height: inherit;
 }
 
 button {
@@ -81,6 +80,15 @@ input {
 input:focus {
   outline: unset;
   border: 1px solid #ff6060;
+}
+
+.dropzone {
+  border: 1px dashed #ff606060;
+  background-color: #ff606010;
+}
+
+.dropzone:hover {
+  background-color: #ff606020;
 }
 
 progress {
