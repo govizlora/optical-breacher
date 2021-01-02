@@ -162,7 +162,7 @@ export function Result({ matrix, targets, onStartOver }: {
     <button
       style={{
         margin: 'auto',
-        marginBottom: 32,
+        marginBottom: 24,
       }}
       onClick={onStartOver}
       className='main'

@@ -44,7 +44,7 @@
       font-size: 1.2em;
       color: #5ef5ff;
       width: 160px;
-      height: 64px;
+      height: 48px;
       flex-shrink: 0;
     }
 
@@ -62,6 +62,8 @@
     button:focus {
       outline: unset;
     }
+
+    a:visited, a:link { color:  #ff6060 }
 
     input {
       background-color: #ff606040;

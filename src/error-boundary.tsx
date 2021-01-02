@@ -30,20 +30,25 @@ export class ErrorBoundary extends Component {
             justifyContent: 'center',
             padding: 16,
             boxSizing: 'border-box',
-            overflow: 'auto',
-            whiteSpace: 'pre-wrap',
-            textTransform: 'uppercase',
-            fontSize: '0.5em',
             alignItems: 'start'
           }}
         >
           <div style={{ fontSize: '3rem' }}>ERROR</div>
           <div style={{ fontSize: '1rem', marginBottom: 32, }}>Reload required</div>
-          <div>{`${error}`}</div>
-          <div style={{ marginTop: 8 }}>ERROR STACK &gt;&gt;&gt;</div>
-          <div>{error.stack}</div>
-          <div style={{ marginTop: 8 }}>COMPONENT STACK &gt;&gt;&gt;</div>
-          <div>{componentStack.split('\n').slice(1).join('\n')}</div>
+          <div
+            style={{
+              fontSize: '0.5em',
+              overflow: 'auto',
+              whiteSpace: 'pre-wrap',
+              textTransform: 'uppercase',
+            }}
+          >
+            <div>{`${error}`}</div>
+            <div style={{ marginTop: 8 }}>ERROR STACK &gt;&gt;&gt;</div>
+            <div>{error.stack}</div>
+            <div style={{ marginTop: 8 }}>COMPONENT STACK &gt;&gt;&gt;</div>
+            <div>{componentStack.split('\n').slice(1).join('\n')}</div>
+          </div>
           <button
             style={{
               color: '#FF6060',
