@@ -1,17 +1,17 @@
 import { Component, ErrorInfo } from 'react'
 
 interface State {
-  error: Error | null;
-  componentStack: string;
+  error: Error | null
+  componentStack: string
 }
 
 const defaultState: State = { error: null, componentStack: '' }
 
 export class ErrorBoundary extends Component {
-  state = defaultState;
+  state = defaultState
 
   static getDerivedStateFromError(error: Error) {
-    return { error };
+    return { error }
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -19,7 +19,7 @@ export class ErrorBoundary extends Component {
   }
 
   render() {
-    const { error, componentStack } = this.state;
+    const { error, componentStack } = this.state
     if (error && componentStack) {
       return (
         <div
@@ -30,11 +30,13 @@ export class ErrorBoundary extends Component {
             justifyContent: 'center',
             padding: 16,
             boxSizing: 'border-box',
-            alignItems: 'start'
+            alignItems: 'start',
           }}
         >
           <div style={{ fontSize: '3rem' }}>ERROR</div>
-          <div style={{ fontSize: '1rem', marginBottom: 32, }}>Reload required</div>
+          <div style={{ fontSize: '1rem', marginBottom: 32 }}>
+            Reload required
+          </div>
           <div
             style={{
               fontSize: '0.5em',
@@ -57,7 +59,9 @@ export class ErrorBoundary extends Component {
               padding: '8px 16px',
               flexShrink: 0,
             }}
-            onClick={() => { this.setState(defaultState) }}
+            onClick={() => {
+              this.setState(defaultState)
+            }}
           >
             RELOAD
           </button>
@@ -65,6 +69,6 @@ export class ErrorBoundary extends Component {
       )
     }
 
-    return this.props.children;
+    return this.props.children
   }
 }

@@ -1,4 +1,4 @@
-import { getMostCommonLength } from "./utils"
+import { getMostCommonLength } from './utils'
 
 describe('getMostCommonLength()', () => {
   test('should work', () => {
@@ -6,7 +6,7 @@ describe('getMostCommonLength()', () => {
       [1, 1],
       [1, 1, 1],
       [1, 1],
-      [1, 1, 1, 1]
+      [1, 1, 1, 1],
     ]
     expect(getMostCommonLength(a)).toBe(2)
   })
