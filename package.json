@@ -10,12 +10,14 @@
   "dependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "tesseract.js": "^2.1.4"
+    "tesseract.js": "^2.1.4",
+    "ua-parser-js": "^0.7.23"
   },
   "devDependencies": {
     "@types/jest": "^26.0.19",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/ua-parser-js": "^0.7.35",
     "css-loader": "^5.0.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.0",
