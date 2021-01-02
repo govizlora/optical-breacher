@@ -38,7 +38,7 @@ export function Camera({
   const [deviceId, setDeviceId] = useState<string>()
   const [nativeResolutionOn, setNativeResolutionOn] = useStorage(
     'nativeResolutionOn',
-    '0'
+    '1'
   )
 
   const updateDimension = useCallback(() => {
@@ -224,8 +224,7 @@ export function Camera({
                 />
                 Use native resolution{' '}
                 <small style={{ fontSize: '0.6em' }}>
-                  (no impact to OCR accuracy, but may fix the black camera
-                  issue)
+                  (may fix the black camera issue)
                 </small>
               </label>
               {!furthurHelpOn ? (
