@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-// @ts-ignore
 import exampleImg from '../assets/example.jpg'
 import { threshold, useStorage } from './utils'
 

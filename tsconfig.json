@@ -5,7 +5,10 @@
     "jsx": "react-jsx",
     "lib": ["ESNext", "DOM"],
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true
   },
   "include": ["src/**/*"]
 }
