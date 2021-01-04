@@ -14,7 +14,13 @@ The OCR part took the most time. I initailly used the default English OCR provid
 
 ## Local develop
 
-Make sure you have `node` and `yarn` installed, then clone the repo and run `yarn start`.
+### Using Node.js
+1. Make sure you have `node` and `yarn` installed
+2. Clone this repo, and run `yarn` to install the dependencies
+3. Run `yarn start`. A browser window will open automatically with the app running. You can also accees the app using your phone, as long as they are under the same network.
+
+### Using Docker
+You can also run the app locally with docker using this [Dockerfile](https://gist.github.com/ddimick/d0e82da4805775bb12f2995b20fa223a) (thanks [@ddimick](https://github.com/ddimick)). In this case, you don't need to install `node` or clone this repo.
 
 ## Screenshots
 
