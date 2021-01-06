@@ -6,7 +6,7 @@ module.exports = (env) => ({
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].js',
+    filename: '[name].[contenthash:8].js',
   },
   module: {
     rules: [
@@ -16,10 +16,17 @@ module.exports = (env) => ({
         use: 'ts-loader',
       },
       {
-        test: /(\.gz|\.jpg|tesseract-core\.wasm\.js|worker\.min\.js|\.woff2)$/i,
+        test: /\.gz$/i,
         loader: 'file-loader',
         options: {
           name: 'lib/[name].[ext]',
+        },
+      },
+      {
+        test: /(\.jpg|\.wasm\.js|opencv.*.js|worker\.min\.js|\.woff2)$/i,
+        loader: 'file-loader',
+        options: {
+          name: 'lib/[name].[contenthash:8].[ext]',
         },
       },
       {

@@ -3,12 +3,10 @@
     "moduleResolution": "node",
     "module": "ESNext",
     "jsx": "react-jsx",
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext", "DOM", "WebWorker.ImportScripts", "WebWorker"],
     "strict": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noUnusedParameters": true,
-    "noUnusedLocals": true
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*"]
 }
