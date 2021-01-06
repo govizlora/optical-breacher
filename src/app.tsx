@@ -110,7 +110,7 @@ export function App() {
         canvas.width,
         canvas.height
       )
-      threshold(ctx, 128 / 255)
+      threshold(ctx, true)
       onCapture(canvas)
     },
     [onCapture]
@@ -173,8 +173,8 @@ export function App() {
           />
         )}
         {/* <div>
-        <canvas ref={canvasRef} />
-      </div> */}
+          <canvas ref={canvasRef} />
+        </div> */}
         {/* outputs.map(o => <div>{o}</div>) */}
       </div>
 
@@ -186,7 +186,7 @@ export function App() {
           color: '#ff6060a0',
         }}
       >
-        <span style={{ marginRight: 4 }}>OPTICAL BREACHER MK.1 Rev 1.3</span>
+        <span style={{ marginRight: 4 }}>OPTICAL BREACHER MK.1 Rev 1.4</span>
         <a
           style={{ marginLeft: 'auto', color: 'inherit' }}
           href="https://github.com/govizlora/optical-breacher"

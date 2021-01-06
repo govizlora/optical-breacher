@@ -292,7 +292,7 @@ export function Camera({
             canvas.width,
             canvas.height
           )
-          threshold(context, 0.85)
+          threshold(context)
           onCapture(canvas)
         }}
       >
