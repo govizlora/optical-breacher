@@ -110,7 +110,7 @@ export function App() {
         canvas.width,
         canvas.height
       )
-      threshold(ctx, 128 / 255)
+      threshold(ctx, true)
       onCapture(canvas)
     },
     [onCapture]
@@ -173,8 +173,8 @@ export function App() {
           />
         )}
         {/* <div>
-        <canvas ref={canvasRef} />
-      </div> */}
+          <canvas ref={canvasRef} />
+        </div> */}
         {/* outputs.map(o => <div>{o}</div>) */}
       </div>
 
