@@ -8,8 +8,6 @@ import {
   Worker,
 } from 'tesseract.js'
 // @ts-ignore
-import '../lib/cyber.traineddata.gz'
-// @ts-ignore
 import workerPath from '../lib/worker.min.js'
 // @ts-ignore
 import corePath from '../lib/tesseract-core.wasm.js'
