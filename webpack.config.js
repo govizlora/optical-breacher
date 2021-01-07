@@ -1,5 +1,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const WorkboxPlugin = require('workbox-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
+const WebpackPwaManifest = require('webpack-pwa-manifest')
 
 module.exports = (env) => ({
   mode: !!env.production ? 'production' : 'development',
@@ -16,10 +19,10 @@ module.exports = (env) => ({
         use: 'ts-loader',
       },
       {
-        test: /(\.gz|\.jpg|tesseract-core\.wasm\.js|worker\.min\.js|\.woff2)$/i,
+        test: /(\.jpg|tesseract-core\.wasm\.js|worker\.min\.js|\.woff2)$/i,
         loader: 'file-loader',
         options: {
-          name: 'lib/[name].[ext]',
+          name: 'lib/[name].[contenthash].[ext]',
         },
       },
       {
@@ -31,7 +34,62 @@ module.exports = (env) => ({
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
   },
-  plugins: [new HtmlWebpackPlugin({ template: 'src/index.html' })],
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      favicon: 'assets/favicon.svg',
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'lib/cyber.traineddata.gz',
+          to: 'lib/cyber.traineddata.gz',
+        },
+      ],
+    }),
+    new WebpackPwaManifest({
+      name: 'Optical Breacher Mk.1',
+      short_name: 'Optical Breacher',
+      description:
+        'Cyberpunk 2077 breach protocol minigame solver using camera + OCR',
+      background_color: '#331313', // For splash screen
+      orientation: 'portrait',
+      display: 'standalone',
+      inject: true,
+      theme_color: '#331313', // For title bar
+      scope: '/',
+      publicPath: '.',
+      icons: [
+        {
+          src: path.resolve('assets/icon-1024.png'),
+          sizes: [96, 128, 192, 256, 384, 512, 1024],
+          ios: true,
+          destination: 'lib',
+        },
+        {
+          src: path.resolve('assets/maskable-icon.png'),
+          size: [1024],
+          purpose: 'maskable',
+          destination: 'lib',
+        },
+      ],
+      ios: {
+        'apple-mobile-web-app-title': 'Optical Breacher Mk.1',
+        'apple-mobile-web-app-status-bar-style': 'black-translucent',
+        'apple-mobile-web-app-capable': 'yes',
+      },
+    }),
+    new WorkboxPlugin.GenerateSW({
+      // these options encourage the ServiceWorkers to get in there fast
+      // and not allow any straggling "old" SWs to hang around
+      clientsClaim: true,
+      skipWaiting: true,
+      maximumFileSizeToCacheInBytes: 4096 * 1024,
+      additionalManifestEntries: [
+        { url: 'index.html', revision: `${Date.now()}` },
+      ],
+    }),
+  ],
   devServer: {
     port: 1234,
     historyApiFallback: true,
