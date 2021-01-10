@@ -190,6 +190,7 @@ export function App() {
         <a
           style={{ marginLeft: 'auto', color: 'inherit' }}
           href="https://github.com/govizlora/optical-breacher"
+          rel="noopener"
           target="_blank"
         >
           GITHUB

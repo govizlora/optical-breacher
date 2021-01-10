@@ -225,6 +225,7 @@ export function Camera({
                     iOS user: Please use Safari browser (see{' '}
                     <a
                       href="https://stackoverflow.com/a/29164511"
+                      rel="noopener"
                       target="_blank"
                     >
                       why
@@ -238,6 +239,7 @@ export function Camera({
                     <a
                       href="https://github.com/govizlora/optical-breacher/issues/7"
                       target="_blank"
+                      rel="noopener"
                     >
                       this issue
                     </a>
