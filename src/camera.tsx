@@ -84,7 +84,6 @@ export function Camera({
     <>
       <div
         style={{
-          position: 'relative',
           margin: 16,
           border: '1px solid #ff606060',
           // overflow: 'hidden',
@@ -102,7 +101,14 @@ export function Camera({
           <div>CODE MATRIX</div>
           <div>SEQUENCE</div>
         </div>
-        <div ref={containerRef} style={{ position: 'relative' }}>
+        <div
+          ref={containerRef}
+          style={{
+            position: 'relative',
+            // Fix a weird bug that the video goes outside of the <video> frame on android emulator
+            overflow: 'hidden',
+          }}
+        >
           <video
             ref={videoRef}
             playsInline
@@ -225,6 +231,7 @@ export function Camera({
                     iOS user: Please use Safari browser (see{' '}
                     <a
                       href="https://stackoverflow.com/a/29164511"
+                      rel="noopener"
                       target="_blank"
                     >
                       why
@@ -238,6 +245,7 @@ export function Camera({
                     <a
                       href="https://github.com/govizlora/optical-breacher/issues/7"
                       target="_blank"
+                      rel="noopener"
                     >
                       this issue
                     </a>

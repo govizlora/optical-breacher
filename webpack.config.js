@@ -52,24 +52,25 @@ module.exports = (env) => ({
       short_name: 'Optical Breacher',
       description:
         'Cyberpunk 2077 breach protocol minigame solver using camera + OCR',
-      background_color: '#331313', // For splash screen
+      background_color: '#fcee0a', // For splash screen
       orientation: 'portrait',
       display: 'standalone',
       inject: true,
-      theme_color: '#331313', // For title bar
-      scope: '/',
+      scope: '.',
+      theme_color: '#100606', // For title bar
+      start_url: './index.html',
       publicPath: '.',
       icons: [
         {
-          src: path.resolve('assets/icon-1024.png'),
-          sizes: [96, 128, 192, 256, 384, 512, 1024],
-          ios: true,
+          src: path.resolve('assets/app-icon-maskable.png'),
+          sizes: [1024],
           destination: 'lib',
+          purpose: 'maskable',
         },
         {
-          src: path.resolve('assets/maskable-icon.png'),
-          size: [1024],
-          purpose: 'maskable',
+          src: path.resolve('assets/app-icon.png'),
+          sizes: [96, 128, 192, 256, 384, 512, 1024],
+          ios: true,
           destination: 'lib',
         },
       ],
@@ -93,6 +94,7 @@ module.exports = (env) => ({
   devServer: {
     port: 1234,
     historyApiFallback: true,
+    // host: 'localhost'
     useLocalIp: true,
     http2: true,
     // Accessing camera requires HTTPS

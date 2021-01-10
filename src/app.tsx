@@ -30,7 +30,7 @@ const deviceType = parser.getDevice()?.type
 //   ["55", "1c", "ff", "55"]
 // ];
 
-export function App() {
+export default function App() {
   const OCRref = useRef<OCR>()
   const [ocrResult, setOcrResult] = useState(defaultOcrResult)
   const [ocrProgress, setOcrProgress] = useState(defaultOcrProgress)
@@ -190,6 +190,7 @@ export function App() {
         <a
           style={{ marginLeft: 'auto', color: 'inherit' }}
           href="https://github.com/govizlora/optical-breacher"
+          rel="noopener"
           target="_blank"
         >
           GITHUB
