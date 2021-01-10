@@ -45,42 +45,54 @@ module.exports = (env) => ({
           from: 'lib/cyber.traineddata.gz',
           to: 'lib/cyber.traineddata.gz',
         },
-      ],
-    }),
-    new WebpackPwaManifest({
-      name: 'Optical Breacher Mk.1',
-      short_name: 'Optical Breacher',
-      description:
-        'Cyberpunk 2077 breach protocol minigame solver using camera + OCR',
-      background_color: '#fcee0a', // For splash screen
-      orientation: 'portrait',
-      display: 'standalone',
-      inject: true,
-      scope: '.',
-      theme_color: '#100606', // For title bar
-      start_url: './index.html',
-      publicPath: '.',
-      icons: [
         {
-          src: path.resolve('assets/app-icon-maskable.png'),
-          sizes: [196, 1024],
-          destination: 'lib',
-          purpose: 'maskable',
+          from: 'src/manifest.webmanifest',
+          to: 'manifest.webmanifest',
         },
         {
-          src: path.resolve('assets/app-icon.png'),
-          sizes: [96, 128, 192, 256, 384, 512, 1024],
-          ios: true,
-          destination: 'lib',
-          purpose: 'any',
+          from: 'assets/app-icon.png',
+          to: 'lib/app-icon.png'
         },
+        {
+          from: 'assets/app-icon-maskable.png',
+          to: 'lib/app-icon-maskable.png'
+        }
       ],
-      ios: {
-        'apple-mobile-web-app-title': 'Optical Breacher Mk.1',
-        'apple-mobile-web-app-status-bar-style': 'black-translucent',
-        'apple-mobile-web-app-capable': 'yes',
-      },
     }),
+    // new WebpackPwaManifest({
+    //   name: 'Optical Breacher Mk.1',
+    //   short_name: 'Optical Breacher',
+    //   description:
+    //     'Cyberpunk 2077 breach protocol minigame solver using camera + OCR',
+    //   background_color: '#fcee0a', // For splash screen
+    //   orientation: 'portrait',
+    //   display: 'standalone',
+    //   inject: true,
+    //   scope: '.',
+    //   theme_color: '#100606', // For title bar
+    //   start_url: './index.html',
+    //   publicPath: '.',
+    //   icons: [
+    //     {
+    //       src: path.resolve('assets/app-icon-maskable.png'),
+    //       sizes: [196, 1024],
+    //       destination: 'lib',
+    //       purpose: 'maskable',
+    //     },
+    //     {
+    //       src: path.resolve('assets/app-icon.png'),
+    //       sizes: [96, 128, 192, 256, 384, 512, 1024],
+    //       ios: true,
+    //       destination: 'lib',
+    //       purpose: 'any',
+    //     },
+    //   ],
+    //   ios: {
+    //     'apple-mobile-web-app-title': 'Optical Breacher Mk.1',
+    //     'apple-mobile-web-app-status-bar-style': 'black-translucent',
+    //     'apple-mobile-web-app-capable': 'yes',
+    //   },
+    // }),
     new WorkboxPlugin.GenerateSW({
       // these options encourage the ServiceWorkers to get in there fast
       // and not allow any straggling "old" SWs to hang around
