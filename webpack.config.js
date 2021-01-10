@@ -57,16 +57,22 @@ module.exports = (env) => ({
       display: 'standalone',
       inject: true,
       scope: '.',
-      theme_color: '#ff6060', // For title bar
+      theme_color: '#100606', // For title bar
       start_url: './index.html',
       publicPath: '.',
       icons: [
+        {
+          src: path.resolve('assets/app-icon-maskable.png'),
+          sizes: [196, 1024],
+          destination: 'lib',
+          purpose: 'maskable',
+        },
         {
           src: path.resolve('assets/app-icon.png'),
           sizes: [96, 128, 192, 256, 384, 512, 1024],
           ios: true,
           destination: 'lib',
-          purpose: 'maskable any',
+          purpose: 'any',
         },
       ],
       ios: {
