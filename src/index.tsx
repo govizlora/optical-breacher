@@ -7,7 +7,7 @@ const App = lazy(() => import('./app'))
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js')
+    // navigator.serviceWorker.register('service-worker.js')
     // .then((registration) => {
     //   console.log('SW registered: ', registration)
     // })
