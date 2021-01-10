@@ -94,10 +94,10 @@ module.exports = (env) => ({
   devServer: {
     port: 1234,
     historyApiFallback: true,
-    host: 'localhost'
-    // useLocalIp: true,
-    // http2: true,
+    // host: 'localhost'
+    useLocalIp: true,
+    http2: true,
     // Accessing camera requires HTTPS
-    // https: true,
+    https: true,
   },
 })
