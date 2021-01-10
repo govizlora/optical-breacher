@@ -84,7 +84,6 @@ export function Camera({
     <>
       <div
         style={{
-          position: 'relative',
           margin: 16,
           border: '1px solid #ff606060',
           // overflow: 'hidden',
@@ -102,7 +101,14 @@ export function Camera({
           <div>CODE MATRIX</div>
           <div>SEQUENCE</div>
         </div>
-        <div ref={containerRef} style={{ position: 'relative' }}>
+        <div
+          ref={containerRef}
+          style={{
+            position: 'relative',
+            // Fix a weird bug that the video goes outside of the <video> frame on android emulator
+            overflow: 'hidden',
+          }}
+        >
           <video
             ref={videoRef}
             playsInline
