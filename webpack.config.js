@@ -62,16 +62,11 @@ module.exports = (env) => ({
       publicPath: '.',
       icons: [
         {
-          src: path.resolve('assets/icon-1024.png'),
+          src: path.resolve('assets/app-icon.png'),
           sizes: [96, 128, 192, 256, 384, 512, 1024],
           ios: true,
           destination: 'lib',
-        },
-        {
-          src: path.resolve('assets/maskable-icon.png'),
-          size: [1024],
-          purpose: 'maskable',
-          destination: 'lib',
+          purpose: 'maskable any',
         },
       ],
       ios: {
