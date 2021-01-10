@@ -1,7 +1,9 @@
+import { lazy, Suspense } from 'react'
 import { render } from 'react-dom'
-import { App } from './app'
 import { ErrorBoundary } from './error-boundary'
 import './main.css'
+
+const App = lazy(() => import('./app'))
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -15,9 +17,25 @@ if ('serviceWorker' in navigator) {
   })
 }
 
+const fallback = (
+  <div
+    style={{
+      height: '100%',
+      fontSize: '1.2em',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    INITIALIZING...
+  </div>
+)
+
 render(
   <ErrorBoundary>
-    <App />
+    <Suspense fallback={fallback}>
+      <App />
+    </Suspense>
   </ErrorBoundary>,
   document.getElementById('root')!
 )
