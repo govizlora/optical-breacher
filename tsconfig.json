@@ -2,8 +2,10 @@
   "compilerOptions": {
     "moduleResolution": "node",
     "module": "ESNext",
+    "outDir": "dist",
+    "sourceMap": true,
     "jsx": "react-jsx",
-    "lib": ["ESNext", "DOM"],
+    "lib": ["DOM"],
     "strict": true,
     "skipLibCheck": true,
     "target": "ES6"
