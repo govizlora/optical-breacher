@@ -1,0 +1,54 @@
+{
+  "icons": [
+    {
+      "src": "./lib/icon_1024x1024.ef964df0a4200491d387c1cefac15c56.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "./lib/icon_512x512.fe0eba86a3495c20320232fc446c10d4.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "./lib/icon_384x384.c8099b2a20f54820863448a35e1e5e7d.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "./lib/icon_256x256.2d2e1098437ccc724d45a5a0dec0bcc4.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "./lib/icon_192x192.b59080fbf3d613db5348fee7b199ec59.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./lib/icon_128x128.4d95943e3333688588d477ec9ee5ea91.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "./lib/icon_96x96.fad88c86d9d6db45543c1353c89247bc.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "./lib/icon_1024x1024.0905779147f0f53d0dbad152067b998f.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "name": "Optical Breacher Mk.1",
+  "short_name": "Optical Breacher",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": "./index.html",
+  "description": "Cyberpunk 2077 breach protocol minigame solver using camera + OCR",
+  "background_color": "#fcee0a",
+  "scope": ".",
+  "theme_color": "#100606"
+}
