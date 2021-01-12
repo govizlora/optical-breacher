@@ -2,12 +2,13 @@ import { lazy, Suspense } from 'react'
 import { render } from 'react-dom'
 import { ErrorBoundary } from './error-boundary'
 import './main.css'
+import { MultiTouchTest } from './multitouchTest'
 
 const App = lazy(() => import('./app'))
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js')
+    // navigator.serviceWorker.register('service-worker.js')
     // .then((registration) => {
     //   console.log('SW registered: ', registration)
     // })
@@ -34,7 +35,7 @@ const fallback = (
 render(
   <ErrorBoundary>
     <Suspense fallback={fallback}>
-      <App />
+      <MultiTouchTest />
     </Suspense>
   </ErrorBoundary>,
   document.getElementById('root')!
