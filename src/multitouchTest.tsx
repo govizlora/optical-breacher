@@ -7,6 +7,12 @@ export const MultiTouchTest = () => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   const [position, setPosition] = useState<{ x: number; y: number }>()
+  const [startInfo, setStartInfo] = useState<{
+    x1: number
+    y1: number
+    x2: number
+    y2: number
+  }>()
 
   const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
     setEventCache(prev => prev.filter(pe => pe.pointerId !== e.pointerId))
@@ -39,6 +45,14 @@ export const MultiTouchTest = () => {
       onPointerDown={e => {
         setEventCache(prev => [...prev, e])
         console.log(eventCache.length)
+        if (eventCache.length === 1) {
+          setStartInfo({
+            x1: eventCache[0].clientX,
+            y1: eventCache[0].clientY,
+            x2: e.clientX,
+            y2: e.clientX,
+          })
+        }
       }}
       onPointerMove={e => {
         setEventCache(prev =>
@@ -51,6 +65,7 @@ export const MultiTouchTest = () => {
       onPointerOut={onPointerUp}
     >
       Touchh: {eventCache.length}
+      StartInfo: {startInfo?.x1} {startInfo?.y1} {startInfo?.x2} {startInfo?.y2}
       <div
         style={{
           position: 'absolute',

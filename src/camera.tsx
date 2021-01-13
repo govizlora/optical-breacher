@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { PointerEvent, useCallback, useEffect, useRef, useState } from 'react'
 // @ts-ignore
 import exampleImg from '../assets/example.jpg'
 import { threshold, useStorage } from './utils'
 
 const ratio = 16 / 9
+const maxZoomLevel = 5
 
 export function Camera({
   onCapture,
@@ -23,16 +24,59 @@ export function Camera({
     'nativeResolutionOn',
     '1'
   )
+  const zoomLevelRef = useRef(1)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  // Below for pinch to zoom
+  const [eventCache, setEventCache] = useState<PointerEvent<HTMLDivElement>[]>(
+    []
+  )
+  const [pinchStartInfo, setPinchStartInfo] = useState<{
+    distance: number
+    zoomLevel: number
+  }>()
+  const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
+    setEventCache(prev => prev.filter(pe => pe.pointerId !== e.pointerId))
+  }
+  const [position, setPosition] = useState<{ x: number; y: number }>()
+  useEffect(() => {
+    if (containerRef.current && pinchStartInfo) {
+      const bound = containerRef.current.getBoundingClientRect()
+      console.log(bound)
+      if (eventCache.length === 2) {
+        setPosition({
+          x: (eventCache[0].clientX + eventCache[1].clientX) / 2 - bound.x,
+          y: (eventCache[0].clientY + eventCache[1].clientY) / 2 - bound.y,
+        })
+        const currentDistance = Math.sqrt(
+          (eventCache[0].clientX - eventCache[1].clientX) ** 2 +
+            (eventCache[0].clientY - eventCache[1].clientY) ** 2
+        )
+        const zoomRatioChange = currentDistance / pinchStartInfo.distance
+        zoomLevelRef.current = Math.max(
+          Math.min(pinchStartInfo.zoomLevel * zoomRatioChange, 5),
+          1
+        )
+      } else {
+        setPosition(undefined)
+      }
+    }
+  }, [eventCache])
 
   const updateDimension = useCallback(() => {
-    if (videoRef.current && containerRef.current) {
+    if (canvasRef.current && containerRef.current) {
+      const dpr = window.devicePixelRatio || 1
       const width = containerRef.current.clientWidth
       const height = width / ratio
-      videoRef.current.width = width
-      videoRef.current.height = height
+      const canvas = canvasRef.current
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      canvas.getContext('2d')!.scale(dpr, dpr)
       setDim({ width, height })
     }
   }, [setDim])
+
+  // useEffect(updateDimension, [])
 
   useEffect(() => {
     window.addEventListener('resize', updateDimension)
@@ -57,7 +101,7 @@ export function Camera({
                 : { facingMode: 'environment' }),
             },
           })
-          .then((mediaStream) => {
+          .then(mediaStream => {
             videoRef.current!.srcObject = mediaStream
           })
       } catch {
@@ -80,6 +124,50 @@ export function Camera({
     cameraSelectOn && getDevices()
   }, [cameraSelectOn])
 
+  useEffect(() => {
+    if (ready) {
+      let cancelled = false
+      function draw() {
+        const canvas = canvasRef.current!
+        const context = canvas.getContext('2d')!
+        const mediaStream = videoRef.current!.srcObject as MediaStream
+        const {
+          width: camWidth = 1,
+          height: camHeight = 1,
+        } = mediaStream.getTracks()[0].getSettings()
+        let sourceX = 0
+        let sourceY = 0
+        let sourceW = camWidth
+        let sourceH = camHeight
+        if (camWidth / camHeight > ratio) {
+          const captureWidth = camHeight * ratio
+          sourceX = (camWidth - captureWidth) / 2
+          sourceW = captureWidth
+        } else {
+          const captureHeight = camWidth / ratio
+          sourceY = (camHeight - captureHeight) / 2
+          sourceH = captureHeight
+        }
+        context.drawImage(
+          videoRef.current!,
+          sourceX,
+          sourceY,
+          sourceW,
+          sourceH,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        )
+        !cancelled && requestAnimationFrame(draw)
+      }
+      requestAnimationFrame(draw)
+      return () => {
+        cancelled = true
+      }
+    }
+  }, [ready])
+
   return (
     <>
       <div
@@ -90,6 +178,10 @@ export function Camera({
           flexShrink: 0,
         }}
       >
+        <div>
+          Height: {dim.height}, width: {dim.width}, count: {eventCache.length}
+        </div>
+        <div>zoomLevel: {zoomLevelRef.current}</div>
         <div
           style={{
             display: 'flex',
@@ -107,7 +199,32 @@ export function Camera({
             position: 'relative',
             // Fix a weird bug that the video goes outside of the <video> frame on android emulator
             overflow: 'hidden',
+            // For pinch to zoom
+            touchAction: 'none',
           }}
+          onPointerDown={e => {
+            setEventCache(prev => [...prev, e])
+            console.log(eventCache.length)
+            if (eventCache.length === 1) {
+              const x1 = eventCache[0].clientX
+              const y1 = eventCache[0].clientY
+              const x2 = e.clientX
+              const y2 = e.clientX
+              setPinchStartInfo({
+                distance: Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2),
+                zoomLevel: zoomLevelRef.current,
+              })
+            }
+          }}
+          onPointerMove={e => {
+            setEventCache(prev =>
+              prev.map(pe => (pe.pointerId === e.pointerId ? e : pe))
+            )
+          }}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+          onPointerLeave={onPointerUp}
+          onPointerOut={onPointerUp}
         >
           <video
             ref={videoRef}
@@ -121,9 +238,21 @@ export function Camera({
             }}
             style={{
               objectFit: 'cover',
-              display: 'block', // Avoid the extra 5px bottom margin after the element
+              display: 'none', // Avoid the extra 5px bottom margin after the element
             }}
             muted
+          />
+          <canvas ref={canvasRef} style={{ height: '100%', width: '100%' }} />
+          <div
+            style={{
+              position: 'absolute',
+              top: position?.y,
+              left: position?.x,
+              display: position ? 'block' : 'none',
+              width: 5,
+              height: 5,
+              background: 'pink',
+            }}
           />
           {ready && (
             <div
@@ -188,7 +317,7 @@ export function Camera({
             <>
               <div>- Specify the camera to use:</div>
               <select
-                onChange={(e) => {
+                onChange={e => {
                   setDeviceId(e.target.value)
                 }}
                 value={deviceId}

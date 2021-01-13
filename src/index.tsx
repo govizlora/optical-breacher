@@ -35,7 +35,7 @@ const fallback = (
 render(
   <ErrorBoundary>
     <Suspense fallback={fallback}>
-      <MultiTouchTest />
+      <App />
     </Suspense>
   </ErrorBoundary>,
   document.getElementById('root')!
