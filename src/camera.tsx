@@ -220,8 +220,8 @@ export function Camera({
       </div>
 
       <div style={{ margin: 16, marginTop: 0, overflow: 'auto' }}>
-        Move the camera as close to the screen as possile. Avoid rotation or
-        tilt.
+        Move the camera closer to the screen (or use pinch zoom) to avoid
+        unnecessary contents. Don't rotate or tilt.
         <a
           style={{ marginLeft: 4 }}
           href="#"
