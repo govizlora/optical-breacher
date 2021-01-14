@@ -82,7 +82,8 @@ export function Camera({
   // Below for pinch to zoom
   const pointEventsRef = useRef<PointerEvent<HTMLDivElement>[]>([])
   const pinchStartInfoRef = useRef({ distance: 1, scale: 1 })
-  const [scale, setScale] = useState(1)
+  const [_scale, setScale] = useStorage('zoomScale', 1)
+  const scale = parseFloat(_scale)
   const onPointerUp = (e: PointerEvent<HTMLDivElement>) => {
     pointEventsRef.current = pointEventsRef.current.filter(
       prev => prev.pointerId !== e.pointerId

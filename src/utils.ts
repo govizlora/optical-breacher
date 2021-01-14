@@ -64,11 +64,11 @@ export const processTargets = (res: string, matrixBytes: Set<string>) =>
         bytes.every(byte => matrixBytes.has(byte))
     )
 
-export function useStorage(storageKey: string, initialState?: string) {
+export function useStorage(storageKey: string, initialState?: any) {
   const storedValue = window.localStorage.getItem(storageKey) || initialState
   const [state, setState] = useState(storedValue)
   useEffect(() => {
-    typeof state === 'string' && window.localStorage.setItem(storageKey, state)
+    window.localStorage.setItem(storageKey, state)
   }, [state])
 
   return [state, setState] as const
