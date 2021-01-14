@@ -28,16 +28,16 @@ export const Upload = ({
           ...(isDragOn && { backgroundColor: '#ff606020' }),
         }}
         className="dropzone"
-        onDragOver={(e) => {
+        onDragOver={e => {
           e.preventDefault()
         }}
-        onDragEnter={(e) => {
+        onDragEnter={e => {
           e.target === e.currentTarget && setIsDragOn(true)
         }}
-        onDragLeave={(e) => {
+        onDragLeave={e => {
           e.target === e.currentTarget && setIsDragOn(false)
         }}
-        onDrop={async (e) => {
+        onDrop={async e => {
           setIsDragOn(false)
           e.preventDefault()
           const item = e.dataTransfer?.items?.[0]
@@ -62,7 +62,7 @@ export const Upload = ({
           type="file"
           accept="image/*"
           style={{ display: 'none' }}
-          onChange={(e) => {
+          onChange={e => {
             const file = e.target.files?.[0]
             file &&
               handleFile(file).catch(() => {

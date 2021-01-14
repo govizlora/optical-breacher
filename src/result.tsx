@@ -17,7 +17,7 @@ export function Result({
     matrix.length > 2 && targets.length && matrix[0].length > 2
   const final = useMemo(() => {
     const targetsToUse = targets.filter(
-      (target) => !hiddenTargets.has(target.join('-'))
+      target => !hiddenTargets.has(target.join('-'))
     )
     if (inputIsValid && targetsToUse.length && bufferSize) {
       const chosens = solve(matrix, targetsToUse, bufferSize)
@@ -48,7 +48,7 @@ export function Result({
             marginLeft: 8,
           }}
           value={bufferSize}
-          onChange={(e) => {
+          onChange={e => {
             const bufferSize = Math.min(
               Math.max(parseInt(e.target.value, 10), 4),
               8
@@ -142,7 +142,7 @@ export function Result({
           TARGET SEQUENCES
         </div>
         {targets
-          .filter((target) => !hiddenTargets.has(target.join('-')))
+          .filter(target => !hiddenTargets.has(target.join('-')))
           .map((target, i) => (
             <div style={{ paddingLeft: 16 }} key={target.join('-')}>
               {target.map((byte, j) => (

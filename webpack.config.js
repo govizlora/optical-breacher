@@ -4,7 +4,7 @@ const WorkboxPlugin = require('workbox-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const WebpackPwaManifest = require('webpack-pwa-manifest')
 
-module.exports = (env) => ({
+module.exports = env => ({
   mode: !!env.production ? 'production' : 'development',
   entry: './src/index.tsx',
   output: {
