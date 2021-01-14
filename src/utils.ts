@@ -10,10 +10,10 @@ const byteMap: Record<string, string> = {
 }
 
 function parseLine(line: string) {
-  const bytes = line.split(' ').map((b) => byteMap[b])
+  const bytes = line.split(' ').map(b => byteMap[b])
 
   // Remove lines such as `EE 1 5` which is usually not a valid line
-  if (bytes.some((byte) => !byte)) {
+  if (bytes.some(byte => !byte)) {
     return []
   }
 
@@ -22,7 +22,7 @@ function parseLine(line: string) {
 
 export function getMostCommonLength<T>(lines: T[][]) {
   const lengths: Record<number, number> = {}
-  lines.forEach((line) => {
+  lines.forEach(line => {
     lengths[line.length] = lengths[line.length] || 0
     lengths[line.length]++
   })
@@ -36,12 +36,12 @@ export function processMatrix(res: string) {
   const lines = res
     .split('\n')
     .map(parseLine)
-    .filter((bytes) => bytes.length)
+    .filter(bytes => bytes.length)
   const mostCommonLength = getMostCommonLength(lines)
-  const validLines = lines.filter((line) => line.length === mostCommonLength)
+  const validLines = lines.filter(line => line.length === mostCommonLength)
   const chars = new Set<string>()
-  validLines.forEach((bytes) => {
-    bytes.forEach((byte) => {
+  validLines.forEach(bytes => {
+    bytes.forEach(byte => {
       chars.add(byte)
     })
   })
@@ -58,10 +58,10 @@ export const processTargets = (res: string, matrixBytes: Set<string>) =>
     .split('\n')
     .map(parseLine)
     .filter(
-      (bytes) =>
+      bytes =>
         bytes.length >= 2 &&
         bytes.length <= 4 &&
-        bytes.every((byte) => matrixBytes.has(byte))
+        bytes.every(byte => matrixBytes.has(byte))
     )
 
 export function useStorage(storageKey: string, initialState?: string) {

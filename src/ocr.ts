@@ -73,7 +73,7 @@ export class OCR {
       langPath: './lib',
       workerPath,
       corePath,
-      logger: (args) => this.logger({ name, ...args }),
+      logger: args => this.logger({ name, ...args }),
     })
     await worker.load()
     await worker.loadLanguage('cyber')

@@ -19,7 +19,7 @@ const getSequences = ({
         .fill(null)
         // [row, col]
         .map((_v, i) => (orientation === 'row' ? [index, i] : [i, index]))
-        .filter((pos) => !used.has(pos.join(',')))
+        .filter(pos => !used.has(pos.join(',')))
         .map(([nr, nc]) =>
           getSequences({
             bufferSize: bufferSize - 1,
@@ -27,7 +27,7 @@ const getSequences = ({
             index: orientation === 'row' ? nc : nr,
             used: new Set(used).add(`${nr},${nc}`),
             matrixSize,
-          }).map((seq) => [[nr, nc], ...seq])
+          }).map(seq => [[nr, nc], ...seq])
         )
         // Not using flat to support older browsers
         // since I won't want to add polyfills
@@ -38,13 +38,13 @@ const evaluate = (
   matrix: string[][],
   targets: string[][]
 ) => {
-  const strings = seqs.map((seq) =>
+  const strings = seqs.map(seq =>
     String.fromCharCode(
       ...seq.map(([row, col]) => parseInt(matrix[row][col], 16))
     )
   )
-  const targetStrings = targets.map((target) =>
-    String.fromCharCode(...target.map((v) => parseInt(v, 16)))
+  const targetStrings = targets.map(target =>
+    String.fromCharCode(...target.map(v => parseInt(v, 16)))
   )
   let maxScore = 0
   const evaluated = strings.map((s, stringIndex) => {

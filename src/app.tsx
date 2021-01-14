@@ -44,7 +44,7 @@ export default function App() {
 
   const logger: Logger = useCallback(({ name, status, progress = 0 }) => {
     if (status === 'recognizing text') {
-      setOcrProgress((prev) => ({
+      setOcrProgress(prev => ({
         status,
         matrixProgress: name === 'matrix' ? progress : prev.matrixProgress,
         targetsProgress: name === 'targets' ? progress : prev.targetsProgress,
@@ -60,7 +60,7 @@ export default function App() {
   }, [])
 
   // Run the OCR and data cleaning.
-  const onCapture = useCallback(async (canvas) => {
+  const onCapture = useCallback(async canvas => {
     setShowInputPage(false)
     setOcrProgress(defaultOcrProgress)
     setOcrResult(defaultOcrResult)
@@ -186,7 +186,7 @@ export default function App() {
           color: '#ff6060a0',
         }}
       >
-        <span style={{ marginRight: 4 }}>OPTICAL BREACHER MK.1 Rev 1.5</span>
+        <span style={{ marginRight: 4 }}>OPTICAL BREACHER MK.1 Rev 1.6</span>
         <a
           style={{ marginLeft: 'auto', color: 'inherit' }}
           href="https://github.com/govizlora/optical-breacher"
