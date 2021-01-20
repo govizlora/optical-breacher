@@ -1,0 +1,301 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`solve 7x7 1`] = `
+Array [
+  Array [
+    Object {
+      "matchedIndices": Array [
+        2,
+      ],
+      "seq": Array [
+        Array [
+          0,
+          4,
+        ],
+        Array [
+          5,
+          4,
+        ],
+        Array [
+          5,
+          0,
+        ],
+        Array [
+          0,
+          0,
+        ],
+      ],
+    },
+  ],
+  Array [
+    Object {
+      "matchedIndices": Array [
+        2,
+      ],
+      "seq": Array [
+        Array [
+          0,
+          4,
+        ],
+        Array [
+          5,
+          4,
+        ],
+        Array [
+          5,
+          0,
+        ],
+        Array [
+          0,
+          0,
+        ],
+      ],
+    },
+  ],
+  Array [
+    Object {
+      "matchedIndices": Array [
+        2,
+      ],
+      "seq": Array [
+        Array [
+          0,
+          4,
+        ],
+        Array [
+          5,
+          4,
+        ],
+        Array [
+          5,
+          0,
+        ],
+        Array [
+          0,
+          0,
+        ],
+      ],
+    },
+  ],
+  Array [
+    Object {
+      "matchedIndices": Array [
+        1,
+        2,
+      ],
+      "seq": Array [
+        Array [
+          0,
+          6,
+        ],
+        Array [
+          5,
+          6,
+        ],
+        Array [
+          5,
+          4,
+        ],
+        Array [
+          0,
+          4,
+        ],
+        Array [
+          0,
+          1,
+        ],
+        Array [
+          1,
+          1,
+        ],
+        Array [
+          1,
+          5,
+        ],
+      ],
+    },
+    Object {
+      "matchedIndices": Array [
+        1,
+        2,
+      ],
+      "seq": Array [
+        Array [
+          0,
+          6,
+        ],
+        Array [
+          5,
+          6,
+        ],
+        Array [
+          5,
+          4,
+        ],
+        Array [
+          2,
+          4,
+        ],
+        Array [
+          2,
+          3,
+        ],
+        Array [
+          0,
+          3,
+        ],
+        Array [
+          0,
+          0,
+        ],
+      ],
+    },
+    Object {
+      "matchedIndices": Array [
+        1,
+        2,
+      ],
+      "seq": Array [
+        Array [
+          0,
+          6,
+        ],
+        Array [
+          5,
+          6,
+        ],
+        Array [
+          5,
+          4,
+        ],
+        Array [
+          2,
+          4,
+        ],
+        Array [
+          2,
+          3,
+        ],
+        Array [
+          0,
+          3,
+        ],
+        Array [
+          0,
+          5,
+        ],
+      ],
+    },
+  ],
+  Array [
+    Object {
+      "matchedIndices": Array [
+        1,
+        2,
+      ],
+      "seq": Array [
+        Array [
+          0,
+          6,
+        ],
+        Array [
+          5,
+          6,
+        ],
+        Array [
+          5,
+          4,
+        ],
+        Array [
+          0,
+          4,
+        ],
+        Array [
+          0,
+          1,
+        ],
+        Array [
+          1,
+          1,
+        ],
+        Array [
+          1,
+          5,
+        ],
+      ],
+    },
+    Object {
+      "matchedIndices": Array [
+        1,
+        2,
+      ],
+      "seq": Array [
+        Array [
+          0,
+          6,
+        ],
+        Array [
+          5,
+          6,
+        ],
+        Array [
+          5,
+          4,
+        ],
+        Array [
+          2,
+          4,
+        ],
+        Array [
+          2,
+          3,
+        ],
+        Array [
+          0,
+          3,
+        ],
+        Array [
+          0,
+          0,
+        ],
+      ],
+    },
+    Object {
+      "matchedIndices": Array [
+        1,
+        2,
+      ],
+      "seq": Array [
+        Array [
+          0,
+          6,
+        ],
+        Array [
+          5,
+          6,
+        ],
+        Array [
+          5,
+          4,
+        ],
+        Array [
+          2,
+          4,
+        ],
+        Array [
+          2,
+          3,
+        ],
+        Array [
+          0,
+          3,
+        ],
+        Array [
+          0,
+          5,
+        ],
+      ],
+    },
+  ],
+]
+`;

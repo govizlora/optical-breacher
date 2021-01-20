@@ -1,4 +1,9 @@
+import { uniqBy } from 'lodash'
+
 type Orientation = 'col' | 'row'
+
+export const seqToString = (seq: number[][]) =>
+  seq.map(cord => `${cord[0]}${cord[1]}`).join()
 
 const getSequences = ({
   bufferSize,
@@ -70,10 +75,11 @@ const evaluate = (
   const finals = withMaxScores.filter(
     ({ seqLength }) => seqLength === minSeqLength
   )
-  const chosen = finals.map(({ stringIndex, matchedIndices }) => ({
+  const preChosen = finals.map(({ stringIndex, matchedIndices }) => ({
     seq: seqs[stringIndex].slice(0, minSeqLength),
     matchedIndices,
   }))
+  const chosen = uniqBy(preChosen, ({ seq }) => seqToString(seq))
   return chosen
 }
 

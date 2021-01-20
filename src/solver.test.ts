@@ -1,4 +1,4 @@
-import { solve } from './solver'
+import { solve, seqToString } from './solver'
 
 const matrix = [
   ['e9', '1c', '1c', '1c', 'bd', 'e9', '55'],
@@ -16,10 +16,11 @@ const targets = [
   ['bd', '1c', '1c', 'e9'],
 ]
 
-test('solve 7x7 with buffer 8', () => {
-  const result = solve(matrix, targets, 8)
-  result.forEach(({ seq, matchedIndices }) => {
-    expect(matchedIndices).toEqual([1, 2])
-  })
-  expect(result.length).toBe(18)
+test('solve 7x7', () => {
+  const results = [4, 5, 6, 7, 8].map(i =>
+    solve(matrix, targets, i).sort(({ seq: seqA }, { seq: seqB }) =>
+      seqToString(seqA).localeCompare(seqToString(seqB))
+    )
+  )
+  expect(results).toMatchSnapshot()
 })
