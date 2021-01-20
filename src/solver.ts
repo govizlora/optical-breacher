@@ -30,7 +30,7 @@ const getSequences = ({
           }).map(seq => [[nr, nc], ...seq])
         )
         // Not using flat to support older browsers
-        // since I won't want to add polyfills
+        // since I don't want to add polyfills
         .reduce((acc, val) => acc.concat(val), [])
 
 const evaluate = (
