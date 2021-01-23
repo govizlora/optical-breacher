@@ -325,7 +325,7 @@ export function Camera({
         className="main"
         style={{
           margin: 'auto',
-          marginBottom: 24,
+          marginBottom: 16,
         }}
         onClick={() => {
           const canvas = document.createElement('canvas')

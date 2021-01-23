@@ -70,16 +70,16 @@ a:link {
 }
 
 input {
-  background-color: #ff606040;
-  border: 1px solid #ff606080;
-  color: #ff6060;
+  background-color: #cfed5740;
+  border: 1px solid #cfed5780;
+  color: #cfed57;
   height: 16px;
   font-size: 1em;
 }
 
 input:focus {
   outline: unset;
-  border: 1px solid #ff6060;
+  border: 1px solid #cfed57;
 }
 
 .dropzone {
