@@ -1,5 +1,15 @@
+import { chunk } from 'lodash'
 import { useMemo, useState } from 'react'
 import { solve } from './solver'
+
+const byteMap: Record<string, string> = {
+  1: '1C',
+  7: '7A',
+  5: '55',
+  B: 'BD',
+  E: 'E9',
+  F: 'FF',
+}
 
 export function Result({
   matrix,
@@ -23,7 +33,7 @@ export function Result({
       const chosens = solve(matrix, targetsToUse, bufferSize)
       const chosenSeq = chosens[0] || { seq: [], matchedIndices: [] }
       const chosenBytes: Record<string, number> = {}
-      chosenSeq.seq.forEach(([row, col], i) => {
+      chunk(chosenSeq.seq, 2).forEach(([row, col], i) => {
         chosenBytes[`${row},${col}`] = i
       })
       return { chosenBytes, matched: new Set(chosenSeq.matchedIndices) }
@@ -37,31 +47,9 @@ export function Result({
 
   return (
     <>
-      <div style={{ margin: '8px 16px' }}>
-        <label>BUFFER SIZE:</label>
-        <input
-          type="number"
-          min={2}
-          max={10}
-          name="buffer-size"
-          style={{
-            marginLeft: 8,
-          }}
-          value={bufferSize}
-          onChange={e => {
-            const bufferSize = Math.min(
-              Math.max(parseInt(e.target.value, 10), 4),
-              8
-            )
-            setBufferSize(bufferSize)
-            window.localStorage.setItem('buffer_size', `${bufferSize}`)
-          }}
-        />
-      </div>
       <div
         style={{
-          margin: 16,
-          marginTop: 0,
+          margin: 8,
           border: '1px solid #cfed5780',
           backgroundColor: '#120f18',
           paddingBottom: 8,
@@ -102,7 +90,7 @@ export function Result({
                   }}
                   key={`${byte}-${col}`}
                 >
-                  {byte}
+                  {byteMap[byte]}
                   {index !== undefined && (
                     <span
                       style={{
@@ -124,7 +112,7 @@ export function Result({
 
       <div
         style={{
-          margin: 16,
+          margin: 8,
           marginTop: 0,
           border: '1px solid #cfed5780',
           backgroundColor: '#120f18',
@@ -159,7 +147,7 @@ export function Result({
                   }}
                   key={`${byte}-${j}`}
                 >
-                  {byte}
+                  {byteMap[byte]}
                 </div>
               ))}
               <a
@@ -179,10 +167,33 @@ export function Result({
             </div>
           ))}
       </div>
+
+      <div style={{ marginLeft: 8, color: '#cfed57' }}>
+        <label>BUFFER SIZE:</label>
+        <input
+          type="number"
+          min={2}
+          max={9}
+          name="buffer-size"
+          style={{
+            marginLeft: 8,
+          }}
+          value={bufferSize}
+          onChange={e => {
+            const bufferSize = Math.min(
+              Math.max(parseInt(e.target.value, 9), 4),
+              10
+            )
+            setBufferSize(bufferSize)
+            window.localStorage.setItem('buffer_size', `${bufferSize}`)
+          }}
+        />
+      </div>
+
       <button
         style={{
           margin: 'auto',
-          marginBottom: 24,
+          marginBottom: 16,
         }}
         onClick={onStartOver}
         className="main"

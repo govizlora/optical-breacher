@@ -1,24 +1,12 @@
 import { useEffect, useState } from 'react'
 
-const byteMap: Record<string, string> = {
-  1: '1C',
-  7: '7A',
-  5: '55',
-  B: 'BD',
-  E: 'E9',
-  F: 'FF',
-}
-
-function parseLine(line: string) {
-  const bytes = line.split(' ').map(b => byteMap[b])
-
-  // Remove lines such as `EE 1 5` which is usually not a valid line
-  if (bytes.some(byte => !byte)) {
-    return []
-  }
-
-  return bytes
-}
+const parseLine = (line: string) =>
+  line
+    .split(' ')
+    .filter(Boolean)
+    // For some wrong recognition like `B5` (stands for BD 55),
+    // just use the first character
+    .map(byte => byte[0])
 
 export function getMostCommonLength<T>(lines: T[][]) {
   const lengths: Record<number, number> = {}

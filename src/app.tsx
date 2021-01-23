@@ -15,21 +15,6 @@ const defaultOcrResult: {
 const parser = new UAParser()
 const deviceType = parser.getDevice()?.type
 
-// const matrix = [
-//   ["1c", "55", "ff", "bd", "e9"],
-//   ["bd", "1c", "e9", "ff", "e9"],
-//   ["55", "bd", "ff", "1c", "1c"],
-//   ["e9", "bd", "1c", "55", "55"],
-//   ["55", "e9", "bd", "55", "ff"]
-// ];
-
-// const targets = [
-//   ["e9", "55"],
-//   ["55", "bd", "e9"],
-//   ["ff", "1c", "bd", "e9"],
-//   ["55", "1c", "ff", "55"]
-// ];
-
 export default function App() {
   const OCRref = useRef<OCR>()
   const [ocrResult, setOcrResult] = useState(defaultOcrResult)
@@ -186,7 +171,7 @@ export default function App() {
           color: '#ff6060a0',
         }}
       >
-        <span style={{ marginRight: 4 }}>OPTICAL BREACHER MK.1 Rev 1.7</span>
+        <span style={{ marginRight: 4 }}>OPTICAL BREACHER MK.1 Rev 1.8</span>
         <a
           style={{ marginLeft: 'auto', color: 'inherit' }}
           href="https://github.com/govizlora/optical-breacher"

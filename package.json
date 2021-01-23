@@ -8,6 +8,7 @@
     "start": "webpack serve --open"
   },
   "dependencies": {
+    "lodash": "^4.17.20",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "tesseract.js": "^2.1.4",
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.19",
+    "@types/lodash": "^4.14.168",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/ua-parser-js": "^0.7.35",
