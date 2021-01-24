@@ -1,4 +1,7 @@
 # OPTICAL BREACHER
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 An online Cyberpunk 2077 breach protocol minigame solver using camera + OCR
 
@@ -40,3 +43,23 @@ You can also run the app locally with docker using this [Dockerfile](https://gis
 - https://github.com/naptha/tesseract.js which made this web app possible
 - https://github.com/tesseract-ocr/tesseract and https://github.com/tesseract-ocr/tesstrain tesstrain made training the model a lot easier
 - My wife for providing machine learning advices
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://steve-luo.com"><img src="https://avatars.githubusercontent.com/u/8736917?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Steve-luo</b></sub></a><br /><a href="#design-Steve-luo" title="Design">🎨</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
