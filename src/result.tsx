@@ -181,8 +181,8 @@ export function Result({
           value={bufferSize}
           onChange={e => {
             const bufferSize = Math.min(
-              Math.max(parseInt(e.target.value, 9), 4),
-              10
+              Math.max(parseInt(e.target.value, 10), 4),
+              9
             )
             setBufferSize(bufferSize)
             window.localStorage.setItem('buffer_size', `${bufferSize}`)
