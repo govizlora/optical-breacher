@@ -1,12 +1,14 @@
-# OPTICAL BREACHER
+<div align="center">
+    <img alt="optical-breacher" src="./assets/app-icon.svg" height="256px" />
+</div>
+<h2 align="center">OPTICAL BREACHER</h2>
+<h4 align="center">An online Cyberpunk 2077 breach protocol minigame solver using camera + OCR</h4>
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-An online Cyberpunk 2077 breach protocol minigame solver using camera + OCR
-
-Website: https://govizlora.github.io/optical-breacher
+Try it here: https://govizlora.github.io/optical-breacher
 
 ## Details
 
