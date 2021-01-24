@@ -1,5 +1,5 @@
 <div align="center">
-    <img alt="optical-breacher" src="./assets/app-icon.svg" height="256px" />
+    <img alt="optical-breacher" src="./assets/app-icon.svg" height="128px" />
 </div>
 <h2 align="center">OPTICAL BREACHER</h2>
 <h4 align="center">An online Cyberpunk 2077 breach protocol minigame solver using camera + OCR</h4>
