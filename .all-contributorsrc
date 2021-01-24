@@ -6,6 +6,15 @@
   "commit": false,
   "contributors": [
     {
+      "login": "rozmy",
+      "name": "Peter Polgar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7920792?v=4",
+      "profile": "http://www.rozmy.com",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
       "login": "Steve-luo",
       "name": "Steve-luo",
       "avatar_url": "https://avatars.githubusercontent.com/u/8736917?v=4",
