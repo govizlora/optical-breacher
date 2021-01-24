@@ -3,12 +3,11 @@
 </div>
 <h2 align="center">OPTICAL BREACHER</h2>
 <h4 align="center">An online Cyberpunk 2077 breach protocol minigame solver using camera + OCR</h4>
+<p align="center">Try it here: https://govizlora.github.io/optical-breacher</p>
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-
-Try it here: https://govizlora.github.io/optical-breacher
 
 ## Details
 
