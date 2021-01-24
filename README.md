@@ -2,16 +2,42 @@
     <img alt="optical-breacher" src="./assets/app-icon.svg" height="128px" />
 </div>
 <h2 align="center">OPTICAL BREACHER</h2>
-<h4 align="center">An online Cyberpunk 2077 breach protocol minigame solver using camera + OCR</h4>
-<p align="center">Try it here: https://govizlora.github.io/optical-breacher</p>
+<h4 align="center">
+An online Cyberpunk 2077 breach protocol minigame solver using camera + OCR
+</br>
+Try it here: https://govizlora.github.io/optical-breacher
+</h4>
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+## How to "install" it as a native app
+
+Optical breacher is a [Progressive Web App](https://web.dev/progressive-web-apps/) which means it can be "installed" to your home screen like a native app, and used offline. It will be automatically updated whenever there is an update on the website.
+
+### iOS
+
+1. Open the website in Safari, and click the `Share` button at the bottom.
+2. Choose `Add to Home Screen`, and confirm by clicking `Add`.
+
+### Android
+
+1. Open the website in Chrome. For the first time visit, there should be a prompt to add it to the home screen. If you don't see the prompt, follow below.
+2. Click the three dot icon on the top right corner of the browser.
+3. Choose `Add to Home screen`, and confirm by clicking `Add`.
+
+### PC
+
+1. Open the website in your browser (Using Chrome as example, Edge should be the same).
+2. Click the three dot icon on the top right corner of the browser.
+3. Choose `Install Optical Breacher Mk.1...`, and confirm by clicking `Install`.
 
 ## Details
 
-The puzzle solving algorithm is simply brute force. (Better ideas welcomed!)
+The puzzle solving algorithm is basically bruteforce, with a simple pruning at sequence lenth of 6 (See https://github.com/govizlora/optical-breacher/pull/23 for details)
 
 The target sequences are weighted from top to bottom as this: `1`, `1.1`, `1.2`, ... So it will focus on more hit first, and when even, the lower sequences will have higher priority.
 
@@ -33,11 +59,11 @@ You can also run the app locally with docker using this [Dockerfile](https://gis
 
 ### Camera mode
 
-![Camera mode](assets/demo.gif)
+<img alt="Camera mode" src="./assets/demo.gif" width="256px" />
 
 ### Screenshot mode
 
-![Screenshot mode](assets/demo2.gif)
+<img alt="Screenshot mode" src="./assets/demo2.gif" width="512px" />
 
 ## Acknowledgement
 
