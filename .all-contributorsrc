@@ -22,6 +22,15 @@
       "contributions": [
         "design"
       ]
+    },
+    {
+      "login": "ddimick",
+      "name": "Doug Dimick",
+      "avatar_url": "https://avatars.githubusercontent.com/u/46494221?v=4",
+      "profile": "https://github.com/ddimick",
+      "contributions": [
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
