@@ -34,6 +34,11 @@ body {
   height: inherit;
 }
 
+/* For unknown reason, inlining border will overwrite borderImage */
+.border {
+  border: solid 1px;
+}
+
 button {
   font-family: inherit;
   border: 1px solid #ff606080;

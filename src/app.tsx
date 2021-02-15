@@ -5,6 +5,7 @@ import { Result } from './result'
 import { processMatrix, processTargets, threshold } from './utils'
 import { UAParser } from 'ua-parser-js'
 import { Upload } from './upload'
+import appBorder from '../assets/app-border.svg'
 
 const defaultOcrProgress = { matrixProgress: 0, targetsProgress: 0, status: '' }
 const defaultOcrResult: {
@@ -124,9 +125,14 @@ export default function App() {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: 'calc(100% - 16px)',
-          border: '1px solid #ff606080',
+          marginBottom: 2,
+          height: 'calc(100% - 14px)',
+          borderImageSource: `url(${appBorder})`,
+          borderImageSlice: 69,
+          borderImageWidth: 'auto',
+          boxSizing: 'border-box',
         }}
+        className="border"
       >
         {showInputPage ? (
           isMobile ? (
@@ -165,9 +171,10 @@ export default function App() {
 
       <div
         style={{
-          height: 16,
+          height: 12,
           fontSize: '0.6em',
           display: 'flex',
+          padding: '0 1px',
           color: '#ff6060a0',
         }}
       >
