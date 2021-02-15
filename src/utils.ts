@@ -48,7 +48,7 @@ export const processTargets = (res: string, matrixBytes: Set<string>) =>
     .filter(
       bytes =>
         bytes.length >= 2 &&
-        bytes.length <= 4 &&
+        bytes.length <= 5 &&
         bytes.every(byte => matrixBytes.has(byte))
     )
 
