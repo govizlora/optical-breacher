@@ -173,7 +173,7 @@ export default function App() {
           color: '#ff6060a0',
         }}
       >
-        <span style={{ marginRight: 4 }}>OPTICAL BREACHER MK.1 Rev 1.8</span>
+        <span style={{ marginRight: 4 }}>OPTICAL BREACHER MK.1 Rev 1.9</span>
         <a
           style={{ marginLeft: 'auto', color: 'inherit' }}
           href="https://github.com/govizlora/optical-breacher"
