@@ -34,30 +34,39 @@ body {
   height: inherit;
 }
 
-button {
-  font-family: inherit;
-  border: 1px solid #ff606080;
-  background-color: #ff606010;
-  cursor: pointer;
+.app-border {
+  border-width: 1px;
+  border-style: solid;
+  border-image-source: url(../assets/app-border.svg);
+  /* The Y-coord of the top indent in the SVG is 68.5 */
+  border-image-slice: 69;
+  border-image-width: auto;
+  box-sizing: border-box;
 }
 
-button.main {
+button {
+  font-family: inherit;
+  background-color: unset;
+  cursor: pointer;
   font-size: 1.2em;
   color: #5ef5ff;
   width: 160px;
   height: 48px;
   flex-shrink: 0;
+  border-image-source: url(../assets/button-border.svg);
+  /* Half of the height of the button */
+  border-image-slice: 24;
+  border-image-width: auto;
 }
 
 @media (hover: hover) and (pointer: fine) {
   button:hover {
-    border: 1px solid #ff6060;
-    background-color: #ff606040;
+    border-image-source: url(../assets/button-border-hover.svg);
   }
 }
 
 button:active {
-  background-color: #ff606060;
+  border-image-source: url(../assets/button-border-active.svg);
 }
 
 button:focus {

@@ -53,10 +53,7 @@ export class ErrorBoundary extends Component {
           </div>
           <button
             style={{
-              color: '#FF6060',
               marginTop: 32,
-              fontSize: '1rem',
-              padding: '8px 16px',
               flexShrink: 0,
             }}
             onClick={() => {

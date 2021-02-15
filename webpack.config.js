@@ -20,7 +20,7 @@ module.exports = env => ({
         use: 'ts-loader',
       },
       {
-        test: /(\.jpg|tesseract-core\.wasm\.js|worker\.min\.js|\.woff2)$/i,
+        test: /(\.jpg|tesseract-core\.wasm\.js|worker\.min\.js|\.woff2|\.svg)$/i,
         loader: 'file-loader',
         options: {
           name: 'lib/[name].[contenthash].[ext]',

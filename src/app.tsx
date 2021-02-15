@@ -124,9 +124,10 @@ export default function App() {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          height: 'calc(100% - 16px)',
-          border: '1px solid #ff606080',
+          marginBottom: 2,
+          height: 'calc(100% - 14px)',
         }}
+        className="app-border"
       >
         {showInputPage ? (
           isMobile ? (
@@ -165,13 +166,14 @@ export default function App() {
 
       <div
         style={{
-          height: 16,
+          height: 12,
           fontSize: '0.6em',
           display: 'flex',
+          padding: '0 1px',
           color: '#ff6060a0',
         }}
       >
-        <span style={{ marginRight: 4 }}>OPTICAL BREACHER MK.1 Rev 1.8</span>
+        <span style={{ marginRight: 4 }}>OPTICAL BREACHER MK.1 Rev 1.9</span>
         <a
           style={{ marginLeft: 'auto', color: 'inherit' }}
           href="https://github.com/govizlora/optical-breacher"

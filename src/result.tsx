@@ -196,7 +196,6 @@ export function Result({
           marginBottom: 16,
         }}
         onClick={onStartOver}
-        className="main"
       >
         START OVER
       </button>

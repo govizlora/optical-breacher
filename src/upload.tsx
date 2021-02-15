@@ -1,5 +1,4 @@
 import { useState } from 'react'
-// @ts-ignore
 import exampleImg from '../assets/crop-example.jpg'
 
 export const Upload = ({

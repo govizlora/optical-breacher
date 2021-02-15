@@ -1,5 +1,4 @@
 import { PointerEvent, useCallback, useEffect, useRef, useState } from 'react'
-// @ts-ignore
 import exampleImg from '../assets/example.jpg'
 import { threshold, useStorage } from './utils'
 
@@ -322,7 +321,6 @@ export function Camera({
       </div>
 
       <button
-        className="main"
         style={{
           margin: 'auto',
           marginBottom: 16,
