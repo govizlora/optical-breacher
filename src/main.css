@@ -34,7 +34,6 @@ body {
   height: inherit;
 }
 
-/* For unknown reason, inlining border will overwrite borderImage */
 .app-border {
   border-width: 1px;
   border-style: solid;
