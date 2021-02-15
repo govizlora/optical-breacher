@@ -322,7 +322,6 @@ export function Camera({
       </div>
 
       <button
-        className="main"
         style={{
           margin: 'auto',
           marginBottom: 16,
