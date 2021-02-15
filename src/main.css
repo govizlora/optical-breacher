@@ -38,6 +38,7 @@ body {
   border-width: 1px;
   border-style: solid;
   border-image-source: url(../assets/app-border.svg);
+  /* The Y-coord of the top indent in the SVG is 68.5 */
   border-image-slice: 69;
   border-image-width: auto;
   box-sizing: border-box;
