@@ -35,8 +35,13 @@ body {
 }
 
 /* For unknown reason, inlining border will overwrite borderImage */
-.border {
-  border: solid 1px;
+.app-border {
+  border-width: 1px;
+  border-style: solid;
+  border-image-source: url(../assets/app-border.svg);
+  border-image-slice: 69;
+  border-image-width: auto;
+  box-sizing: border-box;
 }
 
 button {
